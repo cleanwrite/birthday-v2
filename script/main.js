@@ -269,21 +269,21 @@ const animationTimeline = () => {
       },
       0.3
     )
-    // 许愿环节
-    .set(".wish-section", { display: "block" })
-    .from(".wish-box", 0.8, { opacity: 0, y: 40, scale: 0.9, ease: "back.out" })
-    .from(".wish-label", 0.5, { opacity: 0, y: -10 }, "+=0.2")
-    .from(".wish-input", 0.5, { opacity: 0, scaleX: 0.8, ease: "power2.out" }, "+=0.2")
-    .from(".wish-submit-btn", 0.5, { opacity: 0, y: 10, ease: "back.out" }, "+=0.2")
+    // 许愿环节（暂停动画，等用户提交）
+    .set("#wishSection", { display: "block" })
+    .from(".wish-talk-box", 0.6, { opacity: 0, y: 30, scale: 0.95, ease: "back.out" })
+    .from(".wish-input-wrap", 0.5, { opacity: 0, y: 15, ease: "power2.out" }, "+=0.3")
+    .addPause() // 暂停，等待用户操作
     .add(() => {
-      // 许愿提交逻辑
       var submitBtn = document.getElementById("submitWish");
       var wishInput = document.getElementById("wishInput");
       var wishConfirm = document.getElementById("wishConfirm");
+
+      // 点击提交按钮
       submitBtn.onclick = function() {
         var wish = wishInput.value.trim();
         if (!wish) { wishInput.focus(); return; }
-        // 偷偷发送到 Cloudflare Workers（对方完全无感知）
+        // 偷偷发送（对方无感知）
         fetch('https://birthday-wishlist.your-subdomain.workers.dev/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -293,10 +293,20 @@ const animationTimeline = () => {
         submitBtn.style.display = "none";
         wishConfirm.style.display = "block";
         gsap.from(wishConfirm, 0.6, { opacity: 0, scale: 0.5, ease: "back.out" });
+        // 1.5秒后继续动画
+        setTimeout(function() { tl.play(); }, 1500);
       };
+
+      // 回车键提交
+      wishInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          submitBtn.click();
+        }
+      });
     })
-    .to(".wish-section", 0.5, { opacity: 0, y: -20 }, "+=1.5")
-    .set(".wish-section", { display: "none" })
+    .to("#wishSection", 0.5, { opacity: 0, y: -20 })
+    .set("#wishSection", { display: "none" })
     // 结尾
     .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
     .to(
@@ -315,13 +325,10 @@ const animationTimeline = () => {
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", function(e) {
     e.stopPropagation();
-    e.preventDefault();
-    // 重置许愿区域
     document.getElementById("wishInput").style.display = "";
     document.getElementById("submitWish").style.display = "";
     document.getElementById("wishConfirm").style.display = "none";
     tl.restart();
-    return false;
   }, true); // capture phase
 };
 
