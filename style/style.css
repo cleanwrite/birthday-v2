@@ -18,7 +18,7 @@ body {
 }
 
 /* 步骤层 */
-.container > div:not(.seven):not(.eight) {
+.container > div:not(.seven):not(.eight):not(.wish-overlay) {
   position: absolute;
   left: 0; right: 0;
   top: 50%;
@@ -26,17 +26,18 @@ body {
   width: 100%;
 }
 
-/* 固定层 */
+/* 固定层（气球、粒子） */
 .container > div.seven,
 .container > div.eight {
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0; left: 0;
+  pointer-events: none;
 }
 
 .one { font-size: 4rem; font-weight: 400; color: #333; }
-.one h1 { font-weight: 400; }
+.one-title { font-weight: 400; font-size: inherit; margin: 0; }
 .two { font-size: 1.2rem; color: #888; font-weight: 300; margin-top: 10px; }
 
 .three { font-size: 2.5rem; color: #ff69b4; }
