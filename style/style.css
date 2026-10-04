@@ -265,7 +265,7 @@ body {
   padding: 10px 14px;
   border: 3px solid #aaa;
   border-radius: 5px;
-  background: rgba(255,255,255,0.08);
+  background: #fff;
   color: #333;
   font-size: 1rem;
   font-family: inherit;
@@ -273,8 +273,8 @@ body {
   text-align: left;
   transition: border-color 0.3s;
 }
-.wish-field:focus { border-color: #ff69b4; }
-.wish-field::placeholder { color: rgba(0,0,0,0.3); }
+.wish-field:focus { border-color: rgb(21, 161, 237); }
+.wish-field::placeholder { color: #999; }
 .wish-done {
   text-align: center;
   font-size: 1.6rem;

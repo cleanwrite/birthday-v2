@@ -270,9 +270,9 @@ const animationTimeline = () => {
       0.3
     )
     // 许愿环节（暂停动画，等用户提交）
-    .set("#wishSection", { display: "block" })
-    .from(".wish-talk-box", 0.6, { opacity: 0, y: 30, scale: 0.95, ease: "back.out" })
-    .from(".wish-input-wrap", 0.5, { opacity: 0, y: 15, ease: "power2.out" }, "+=0.3")
+    .set("#wishSection", { display: "block", opacity: 1 })
+    .set(".wish-talk-box", { opacity: 1, y: 0, scale: 1 })
+    .set(".wish-input-wrap", { opacity: 1, y: 0 })
     .addPause() // 暂停，等待用户操作
     .add(() => {
       var submitBtn = document.getElementById("submitWish");
@@ -305,7 +305,6 @@ const animationTimeline = () => {
         }
       });
     })
-    .to("#wishSection", 0.5, { opacity: 0, y: -20 })
     .set("#wishSection", { display: "none" })
     // 结尾
     .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
