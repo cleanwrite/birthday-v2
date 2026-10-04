@@ -1,6 +1,8 @@
 (function () {
   const $ = (sel) => document.querySelector(sel);
-  const $$ = (sel) => document.querySelectorAll(sel);
+
+  // ===== Worker API（许愿存储） =====
+  const API_BASE = "https://birthday-v2.ss20211111705.workers.dev";
 
   // ===== 音频 =====
   const bgMusic = $("#bgMusic");
@@ -23,121 +25,136 @@
       init();
     });
 
-  // ===== 许愿 =====
-  const wishOverlay = $("#wishOverlay");
-  const wishInput = $("#wishInput");
-  const submitWishBtn = $("#submitWish");
-  const wishConfirm = $("#wishConfirm");
+  let tl;
 
-  // Worker API 地址（绝对地址，GitHub Pages 和 Worker 域名访问都能提交）
-  const API_BASE = "https://birthday-v2.ss20211111705.workers.dev";
-
-  function submitWish() {
-    const val = wishInput.value.trim();
-    if (!val) { wishInput.focus(); return; }
-    // 偷偷存储（用户无感知）
-    fetch(API_BASE + "/api/wish", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ wish: val, time: new Date().toISOString() })
-    }).catch(() => {});
-    wishInput.style.display = "none";
-    submitWishBtn.style.display = "none";
-    wishConfirm.style.display = "flex";
-    setTimeout(() => showStep(6), 1500);
-  }
-
-  submitWishBtn.onclick = (e) => { e.stopPropagation(); submitWish(); };
-  wishInput.onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); submitWish(); } };
-
-  // ===== 步骤控制 =====
-  let currentStep = 0;
-  let timer = null;
-
-  function clearTimers() { if (timer) clearTimeout(timer); }
-
-  function showStep(n) {
-    clearTimers();
-    // 隐藏所有步骤
-    $$(".step").forEach((el) => el.classList.remove("visible"));
-    currentStep = n;
-
-    if (n === 1) {
-      const el = $("#step1");
-      el.classList.add("visible");
-      el.querySelector(".title").classList.add("anim-fadeInUp");
-      timer = setTimeout(() => showStep(2), 4000);
-    } else if (n === 2) {
-      const el = $("#step2");
-      el.classList.add("visible");
-      el.querySelector(".big-text").classList.add("anim-scaleIn");
-      timer = setTimeout(() => showStep(3), 3500);
-    } else if (n === 3) {
-      const el = $("#step3");
-      el.classList.add("visible");
-      el.querySelector(".chat-bubble").classList.add("anim-scaleIn");
-      // 逐字显示
-      const text = el.querySelector(".chat-text");
-      const chars = text.innerText.split("");
-      text.innerHTML = chars.map((c, i) => `<span class="char" style="animation-delay:${i * 0.04}s">${c}</span>`).join("");
-      timer = setTimeout(() => showStep(4), chars.length * 40 + 1500);
-    } else if (n === 4) {
-      const el = $("#step4");
-      el.classList.add("visible");
-      const thinks = el.querySelectorAll(".think");
-      thinks.forEach((t, i) => {
-        t.style.opacity = "0";
-        setTimeout(() => {
-          t.classList.add("anim-fadeInUp");
-          t.style.opacity = "1";
-        }, i * 1500);
-      });
-      // 等所有思考显示完 + 大字动画
-      timer = setTimeout(() => showStep(5), thinks.length * 1500 + 3000);
-    } else if (n === 5) {
-      const el = $("#step5");
-      el.classList.add("visible");
-      el.querySelector(".wish-hbd").classList.add("anim-scaleIn");
-      el.querySelector(".wish-text").classList.add("anim-fadeIn");
-      // 气球
-      const balloons = $("#balloons");
-      balloons.classList.add("visible");
-      const imgs = balloons.querySelectorAll("img");
-      imgs.forEach((img, i) => {
-        img.style.left = `${5 + (i % 8) * 12}%`;
-        img.style.animation = `floatUp ${5 + Math.random() * 3}s linear ${i * 0.2}s forwards`;
-      });
-      timer = setTimeout(() => showWish(), 5000);
-    } else if (n === 6) {
-      const el = $("#step6");
-      el.classList.add("visible");
-      el.querySelectorAll("p").forEach((p, i) => {
-        p.style.opacity = "0";
-        setTimeout(() => p.classList.add("anim-fadeInUp"), i * 400);
-      });
-    }
-  }
-
-  function showWish() {
-    $$(".step").forEach((el) => el.classList.remove("visible"));
-    $("#balloons").classList.remove("visible");
-    wishOverlay.classList.add("visible");
-    wishInput.focus();
-  }
-
-  // 重播
-  $("#replay").onclick = (e) => {
-    e.stopPropagation();
-    wishOverlay.classList.remove("visible");
-    wishInput.style.display = "";
-    submitWishBtn.style.display = "";
-    wishConfirm.style.display = "none";
-    $("#balloons").classList.remove("visible");
-    showStep(1);
-  };
-
-  // ===== 启动 =====
   function init() {
-    showStep(1);
+    // 拆字符（逐字动画用）
+    const chat = $(".hbd-chatbox");
+    const hbd = $(".wish-hbd");
+    const splitChars = (el) => {
+      el.innerHTML = el.innerHTML.split("").map((c) => `<span>${c}</span>`).join("");
+    };
+    splitChars(chat);
+    splitChars(hbd);
+
+    // ===== 动画时间轴（GSAP 3） =====
+    const ideaIn = { opacity: 0, y: -20, rotateX: 5, skewX: "15deg" };
+    const ideaOut = { opacity: 0, y: 20, rotateY: 5, skewX: "-15deg" };
+
+    tl = gsap.timeline({ paused: true });
+
+    tl
+      // 1. 开场问候
+      .to(".container", { duration: 0.1, visibility: "visible" })
+      .from(".one", { duration: 0.7, opacity: 0, y: 10 })
+      .from(".two", { duration: 0.4, opacity: 0, y: 10 })
+      .to(".one", { duration: 0.7, opacity: 0, y: 10 }, "+=2.5")
+      .to(".two", { duration: 0.7, opacity: 0, y: 10 }, "-=1")
+
+      // 2. 生日宣言
+      .from(".three", { duration: 0.7, opacity: 0, y: 10 })
+      .to(".three", { duration: 0.7, opacity: 0, y: 10 }, "+=2")
+
+      // 3. 对话气泡
+      .from(".four", { duration: 0.7, scale: 0.2, opacity: 0, ease: "back.out" })
+      .from(".fake-btn", { duration: 0.3, scale: 0.2, opacity: 0 })
+      .to(".hbd-chatbox span", { duration: 0.05, visibility: "visible", stagger: 0.045 })
+      .to(".fake-btn", { duration: 0.1, backgroundColor: "rgb(127, 206, 248)" })
+      .to(".four", { duration: 0.5, scale: 0.2, opacity: 0, y: -150 }, "+=0.7")
+
+      // 4. 思考序列
+      .from(".idea-1", { duration: 0.7, ...ideaIn })
+      .to(".idea-1", { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from(".idea-2", { duration: 0.7, ...ideaIn })
+      .to(".idea-2", { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from(".idea-3", { duration: 0.7, ...ideaIn })
+      .to(".idea-3 strong", { duration: 0.5, scale: 1.2, x: 10, backgroundColor: "rgb(21, 161, 237)", color: "#fff" })
+      .to(".idea-3", { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from(".idea-4", { duration: 0.7, ...ideaIn })
+      .to(".idea-4", { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from(".idea-5", { duration: 0.7, rotateX: 15, rotateZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=0.5")
+      .to(".idea-5 .smiley", { duration: 0.7, rotate: 90, x: 8 }, "+=0.4")
+      .to(".idea-5", { duration: 0.7, scale: 0.2, opacity: 0 }, "+=2")
+
+      // 5. 生日大字
+      .from(".idea-6 span", { duration: 0.8, scale: 3, opacity: 0, rotate: 15, ease: "expo.out", stagger: 0.2 })
+      .to(".idea-6 span", { duration: 0.8, scale: 3, opacity: 0, rotate: -15, ease: "expo.out", stagger: 0.2 }, "+=1")
+
+      // 6. 气球升空
+      .fromTo(".baloons img",
+        { opacity: 0.9, y: 1400 },
+        { opacity: 1, y: -1000, duration: 2.5, stagger: 0.2 })
+
+      // 7. 生日祝福
+      .set(".six", { opacity: 1, y: 0 })
+      .from(".wish", { duration: 0.5, scale: 2.5, opacity: 0, rotateZ: -15 }, "-=2")
+      .from(".wish-hbd span", { duration: 0.7, opacity: 0, y: -50, rotate: 150, skewX: "30deg", ease: "elastic.out(1, 0.5)", stagger: 0.1 })
+      .to(".wish-hbd span", { duration: 0.7, scale: 1, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.1 }, "party")
+      .from(".wish h5", { duration: 0.5, opacity: 0, y: 10, skewX: "-15deg" }, "party")
+
+      // 8. 粒子爆炸
+      .to(".eight svg", { visibility: "visible", opacity: 0, scale: 80, repeat: 1, repeatDelay: 1.2, duration: 1.5, stagger: 0.3 })
+
+      // 9. 许愿弹窗（暂停等待提交）
+      .add(() => {
+        gsap.set(".wish-overlay", { display: "flex", pointerEvents: "auto" });
+        gsap.to(".wish-overlay", { duration: 0.4, opacity: 1 });
+        gsap.from(".wish-dialog", { duration: 0.6, opacity: 0, scale: 0.85, y: 30, ease: "back.out", delay: 0.15 });
+        setTimeout(() => $("#wishInput").focus(), 400);
+      })
+      .addPause()
+
+      // ===== 许愿后的完整结尾 =====
+      .to(".wish-overlay", { duration: 0.4, opacity: 0, ease: "power2.in", pointerEvents: "none" })
+      .set(".wish-overlay", { display: "none" })
+      .to(".six", { duration: 0.5, opacity: 0, y: 30 })
+      .set(".nine", { display: "flex" })
+      .from(".end-1", { duration: 0.8, opacity: 0, y: 25 })
+      .from(".end-2", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
+      .from(".end-3", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
+      .from(".end-wish", { duration: 0.6, opacity: 0, scale: 0.5, ease: "back.out", stagger: 0.5 }, "+=0.8")
+      .from(".end-final", { duration: 1, opacity: 0, scale: 3, ease: "elastic.out(1, 0.4)" }, "+=0.6")
+      .from(".last-smile", { duration: 0.5, opacity: 0, scale: 0 }, "+=0.3")
+      .to(".last-smile", { duration: 0.5, rotate: 360 }, "+=0.5")
+      .from("#replay", { duration: 0.6, opacity: 0 }, "+=0.5");
+
+    // ===== 开始播放 =====
+    tl.play();
+
+    // ===== 许愿提交 =====
+    const submitWish = () => {
+      const input = $("#wishInput");
+      const val = input.value.trim();
+      if (!val) { input.focus(); return; }
+      // 偷偷存储（用户无感知）
+      fetch(API_BASE + "/api/wish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wish: val, time: new Date().toISOString() })
+      }).catch(() => {});
+      // UI 反馈
+      input.style.display = "none";
+      $("#submitWish").style.display = "none";
+      $("#wishConfirm").style.display = "flex";
+      gsap.from("#wishConfirm", { duration: 0.5, opacity: 0, scale: 0.5, ease: "back.out" });
+      // 1.8 秒后继续动画
+      setTimeout(() => tl.resume(), 1800);
+    };
+
+    $("#submitWish").onclick = (e) => { e.stopPropagation(); submitWish(); };
+    $("#wishInput").onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); submitWish(); } };
+
+    // ===== 重播 =====
+    $("#replay").onclick = (e) => {
+      e.stopPropagation();
+      // 重置许愿弹窗状态
+      $("#wishInput").style.display = "";
+      $("#submitWish").style.display = "";
+      $("#wishConfirm").style.display = "none";
+      gsap.set(".wish-overlay", { display: "none", opacity: 0, pointerEvents: "none" });
+      gsap.set(".nine", { display: "none" });
+      tl.restart();
+      return false;
+    };
   }
 })();

@@ -1,106 +1,220 @@
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  box-sizing: border-box;
+}
 
 body {
+  margin: 0;
   font-family: "Work Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
   overflow: hidden;
-  background: #fff;
-  color: #333;
 }
 
 .container {
-  width: 100%;
-  max-width: 800px;
   height: 100vh;
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
+  text-align: center;
+  visibility: hidden;
   position: relative;
   overflow: hidden;
 }
 
-/* ===== 步骤通用 ===== */
-.step {
-  position: absolute;
-  top: 50%;
+.container div.six {
+  top: 10vh;
+  z-index: 1;
+}
+
+.container div.seven,
+.container div.eight {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  text-align: center;
-  opacity: 0;
+  transform: translateX(-50%);
   pointer-events: none;
-  visibility: hidden;
-}
-.step.visible {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
 }
 
-/* ===== 步骤 1: 标题 ===== */
-.step-1 .title { font-size: 4rem; font-weight: 600; color: #ff69b4; }
-.step-1 .subtitle { font-size: 1.3rem; color: #888; margin-top: 8px; }
+.container > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20vh;
+  pointer-events: none;
+}
 
-/* ===== 步骤 2: 生日宣言 ===== */
-.step-2 .big-text { font-size: 2.5rem; color: #ff69b4; font-weight: 600; }
+/* ===== 1. 开场问候 ===== */
+.one { font-size: 4.5rem; color: #333; }
+.one h1 { font-weight: 500; margin: 0; }
+.one h1 span { display: inline-block; }
 
-/* ===== 步骤 3: 对话气泡 ===== */
-.chat-bubble {
-  display: inline-block;
-  min-width: 280px;
-  max-width: 500px;
-  border: 3px solid #ccc;
-  border-radius: 12px;
-  padding: 14px 18px;
+.two {
+  font-size: 1.2rem;
+  font-weight: lighter;
+  color: #888;
+}
+
+/* ===== 2. 生日宣言 ===== */
+.three { font-size: 3rem; color: #ff69b4; }
+.three p { margin: 0; }
+
+/* ===== 3. 对话气泡 ===== */
+.four .text-box {
+  width: 600px;
+  margin: 0 auto;
+  border: 3px solid #aaa;
+  border-radius: 5px;
+  padding: 10px;
   position: relative;
-  background: #fafafa;
+  background: #fff;
 }
-.chat-text { font-size: 1.1rem; text-align: left; }
-.chat-send {
-  display: inline-block;
-  float: right;
-  margin-top: 10px;
-  padding: 6px 14px;
-  background: rgb(21, 161, 237);
+
+.text-box p { margin: 0; text-align: left; }
+.text-box span { visibility: hidden; }
+
+.text-box .fake-btn {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
   color: #fff;
-  border-radius: 4px;
+  background-color: rgb(21, 161, 237);
+  padding: 5px 8px;
+  border-radius: 3px;
   font-size: 0.9rem;
 }
 
-/* ===== 步骤 4: 思考 ===== */
-.step-4 .think { font-size: 1.8rem; color: #555; margin: 12px 0; }
-.step-4 .think strong { color: #ff69b4; }
-.big-letters { font-size: 10rem; color: #ff69b4; font-weight: 700; margin-top: 20px; }
-
-/* ===== 步骤 5: 祝福 ===== */
-.wish-hbd { font-size: 2.5rem; color: #ff1493; text-transform: uppercase; }
-.wish-text { font-size: 1.5rem; color: #888; font-weight: 300; margin-top: 10px; }
-
-/* ===== 步骤 6: 结尾 ===== */
-.step-6 p { font-size: 1.8rem; color: #555; }
-#replay { cursor: pointer; color: #ff69b4; text-decoration: underline; }
-.last-smile { font-size: 3rem !important; margin-top: 10px; }
-
-/* ===== 气球 ===== */
-.balloons {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0;
-}
-.balloons.visible { opacity: 1; }
-.balloons img {
+/* ===== 4. 思考序列 ===== */
+.five p {
+  font-size: 2rem;
   position: absolute;
-  bottom: -200px;
-  width: 80px;
+  left: 0;
+  right: 0;
+  color: #555;
+  margin: 0;
 }
 
-/* ===== 粒子 ===== */
-.particles {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  pointer-events: none;
-  z-index: 0;
+.idea-3 strong {
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  color: #ff69b4;
+}
+
+.five .idea-5 { font-size: 4rem; }
+
+.idea-5 span,
+.idea-6 span,
+.wish-hbd span {
+  display: inline-block;
+}
+
+.idea-6 span {
+  font-size: 15rem;
+  color: #ff69b4;
+}
+
+/* ===== 5. 生日祝福 ===== */
+.six { position: relative; }
+
+.wish-hbd {
+  font-size: 3em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.wish h5 {
+  font-weight: lighter;
+  font-size: 2rem;
+  margin: 10px 0 0;
+  color: #888;
+}
+
+/* ===== 6. 气球（放大版） ===== */
+.baloons img {
+  display: inline-block;
+  position: absolute;
+  width: 280px;
+}
+
+.baloons img:nth-child(even) { left: -6%; }
+.baloons img:nth-child(odd) { right: -6%; }
+.baloons img:nth-child(3n + 0) { left: 28%; }
+
+/* ===== 7. 粒子圆圈 ===== */
+.eight svg {
+  width: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  z-index: -1;
+}
+
+.eight svg:nth-child(1) { top: 7vh; left: 5vw; fill: #bd6ecf; }
+.eight svg:nth-child(2) { top: 23vh; left: 35vw; fill: #7dd175; }
+.eight svg:nth-child(3) { top: 33vh; left: 23vw; fill: #349d8b; }
+.eight svg:nth-child(4) { top: 43vh; left: 57vw; fill: #347a9d; }
+.eight svg:nth-child(5) { top: 68vh; left: 7vw; fill: #c66053; }
+.eight svg:nth-child(6) { top: 42vh; left: 77vw; fill: #bfaa40; }
+.eight svg:nth-child(7) { top: 68vh; left: 83vw; fill: #e3bae8; }
+.eight svg:nth-child(8) { top: 86vh; left: 37vw; fill: #8762cb; }
+.eight svg:nth-child(9) { top: 94vh; left: 87vw; fill: #9a90da; }
+
+/* ===== 8. 结尾（许愿之后） ===== */
+.nine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  display: none; /* 默认隐藏，结尾序列开始时由 GSAP 显示，避免拦截许愿弹窗点击 */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.nine p {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #666;
+  margin: 0;
+}
+
+.end-wishes {
+  margin: 14px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.end-wish {
+  font-size: 2rem !important;
+  color: #ff69b4 !important;
+  font-weight: 500 !important;
+}
+
+.end-final {
+  font-size: 3.2rem !important;
+  color: #ff1493 !important;
+  font-weight: 700 !important;
+  margin-top: 10px !important;
+}
+
+.last-smile {
+  font-size: 2.6rem !important;
+  margin-top: 4px !important;
+}
+
+#replay {
+  z-index: 3;
+  cursor: pointer;
+  pointer-events: auto;
+  margin-top: 18px !important;
+  font-size: 1rem !important;
+  color: #ff69b4 !important;
+  text-decoration: underline;
+  opacity: 0.75;
 }
 
 /* ===== 许愿弹窗 ===== */
@@ -112,11 +226,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 9999;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 0.4s;
 }
-.wish-overlay.visible { opacity: 1; pointer-events: auto; }
+
+.wish-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .wish-dialog {
   background: #fff;
   border-radius: 24px;
@@ -126,6 +246,7 @@ body {
   max-width: 440px;
   width: 92%;
 }
+
 .wish-dialog-header {
   display: flex;
   align-items: center;
@@ -133,9 +254,21 @@ body {
   gap: 10px;
   margin-bottom: 8px;
 }
+
 .wish-icon { font-size: 2rem; }
-.wish-title { font-size: 1.8rem; font-weight: 600; color: #ff69b4; }
-.wish-hint { font-size: 0.95rem; color: #999; margin-bottom: 18px; }
+
+.wish-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ff69b4;
+}
+
+.wish-hint {
+  font-size: 0.95rem;
+  color: #999;
+  margin-bottom: 18px;
+}
+
 .wish-input {
   width: 100%;
   padding: 14px 18px;
@@ -148,8 +281,14 @@ body {
   background: #f9f9f9;
   transition: border-color 0.3s;
 }
-.wish-input:focus { border-color: #ff69b4; background: #fff; }
+
+.wish-input:focus {
+  border-color: #ff69b4;
+  background: #fff;
+}
+
 .wish-input::placeholder { color: #bbb; }
+
 .wish-btn {
   margin-top: 16px;
   padding: 12px 36px;
@@ -163,8 +302,14 @@ body {
   transition: all 0.3s;
   font-family: inherit;
 }
-.wish-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(255,105,180,0.4); }
+
+.wish-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
+}
+
 .wish-btn:active { transform: scale(0.98); }
+
 .wish-confirm {
   display: flex;
   align-items: center;
@@ -175,67 +320,68 @@ body {
   font-weight: 600;
   margin-top: 18px;
 }
+
 .confirm-icon { font-size: 1.5rem; }
 
 /* ===== 音乐按钮 ===== */
 .music-btn {
-  position: fixed; top: 20px; right: 20px; z-index: 200;
-  width: 48px; height: 48px; border: none; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);
-  font-size: 1.4rem; cursor: pointer; transition: all 0.3s;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-.music-btn:hover { background: rgba(255, 255, 255, 0.5); transform: scale(1.1); }
-
-/* ===== 动画 ===== */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.3); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes floatUp {
-  from { bottom: -200px; opacity: 1; }
-  to { bottom: 110vh; opacity: 0.8; }
-}
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 200;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.anim-fadeInUp { animation: fadeInUp 0.8s ease-out both; }
-.anim-fadeIn { animation: 0.6s ease-out both; }
-.anim-scaleIn { animation: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-
-/* 逐字显示 */
-.chat-text .char {
-  display: inline-block;
-  opacity: 0;
-  animation: fadeIn 0.04s ease-out forwards;
+.music-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
 }
 
 /* ===== 响应式 ===== */
-@media (max-width: 600px) {
-  .container { max-width: 100%; padding: 0 16px; }
-  .step-1 .title { font-size: 2.5rem; }
-  .step-1 .subtitle { font-size: 1rem; }
-  .step-2 .big-text { font-size: 1.6rem; }
-  .chat-bubble { min-width: 240px; max-width: 90%; }
-  .step-4 .think { font-size: 1.2rem; }
-  .big-letters { font-size: 6rem; }
-  .wish-hbd { font-size: 1.8rem; }
-  .wish-text { font-size: 1.1rem; }
-  .step-6 p { font-size: 1.2rem; }
+@media screen and (max-height: 1000px) {
+  .baloons img:nth-child(even) { left: -8%; }
+  .baloons img:nth-child(odd) { right: -8%; }
+}
+
+@media screen and (max-width: 600px) {
+  .container { max-width: 100%; }
+
+  .one { font-size: 2.5rem; }
+  .two { font-size: 1rem; }
+
+  .three { font-size: 1.8rem; }
+
+  .four .text-box { width: 90%; }
+  .text-box .fake-btn { right: 5px; bottom: -38px; }
+
+  .five p { font-size: 1.3rem; }
+  .five .idea-5 { font-size: 2.2rem; }
+  .idea-5 span { display: block; }
+  .idea-6 span { font-size: 8rem; }
+
+  .wish-hbd { font-size: 1.8em; }
+  .wish h5 { font-size: 1.2rem; }
+
+  .baloons img { width: 160px; }
+
+  .nine p { font-size: 1.1rem; }
+  .end-wish { font-size: 1.5rem !important; }
+  .end-final { font-size: 2.4rem !important; }
   .last-smile { font-size: 2rem !important; }
+  #replay { font-size: 0.85rem !important; }
+
   .wish-dialog { padding: 28px 24px; }
   .wish-title { font-size: 1.5rem; }
-  .balloons img { width: 60px; }
 }

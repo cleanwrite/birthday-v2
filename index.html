@@ -1,97 +1,128 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎂 生日快乐</title>
   <link rel="stylesheet" href="style/style.css">
 </head>
+
 <body>
-  <div class="container" id="container">
-
-    <!-- 步骤 1: 标题 -->
-    <div class="step step-1" id="step1">
-      <h1 class="title"><span data-node-name="greeting">嘿</span> <span data-node-name="name">朋友</span></h1>
-      <p class="subtitle" data-node-name="greetingText">祝你生日快乐！</p>
+  <div class="container">
+    <!-- 1. 开场问候 -->
+    <div class="one">
+      <h1>
+        <span data-node-name="greeting">嘿</span>
+        <span data-node-name="name">朋友</span>
+      </h1>
+      <p class="two" data-node-name="greetingText">你的名字真好听！</p>
     </div>
 
-    <!-- 步骤 2: 生日宣言 -->
-    <div class="step step-2" id="step2">
-      <p class="big-text" data-node-name="text1">今天是你的生日！🎉</p>
+    <!-- 2. 生日宣言 -->
+    <div class="three">
+      <p data-node-name="text1">今天是你的生日！！！🎉</p>
     </div>
 
-    <!-- 步骤 3: 对话气泡 -->
-    <div class="step step-3" id="step3">
-      <div class="chat-bubble">
-        <p class="chat-text" data-node-name="textInChatBox">祝你生日快乐！</p>
-        <span class="chat-send" data-node-name="sendButtonLabel">发送</span>
+    <!-- 3. 对话气泡 -->
+    <div class="four">
+      <div class="text-box">
+        <p class="hbd-chatbox" data-node-name="textInChatBox">祝你生日快乐！</p>
+        <p class="fake-btn" data-node-name="sendButtonLabel">发送</p>
       </div>
     </div>
 
-    <!-- 步骤 4: 思考 -->
-    <div class="step step-4" id="step4">
-      <p class="think" data-node-name="text2">我本来想说点什么的</p>
-      <p class="think" data-node-name="text3">但是突然停住了</p>
-      <p class="think"><span data-node-name="text4">因为我想给你一份</span> <strong data-node-name="text4Adjective">特别的</strong></p>
-      <p class="think" data-node-name="text5Entry">因为，</p>
-      <p class="think"><span data-node-name="text5Content">你是独一无二的</span> <span data-node-name="smiley">💕</span></p>
-      <p class="big-letters"><span data-node-name="bigTextPart1">生</span><span data-node-name="bigTextPart2">日</span></p>
+    <!-- 4. 思考序列 -->
+    <div class="five">
+      <p class="idea-1" data-node-name="text2">我本来想说点什么的</p>
+      <p class="idea-2" data-node-name="text3">但是突然停住了</p>
+      <p class="idea-3">
+        <span data-node-name="text4">因为我意识到，我想给你一份</span>
+        <strong data-node-name="text4Adjective">特别的</strong>
+      </p>
+      <p class="idea-4" data-node-name="text5Entry">因为，</p>
+      <p class="idea-5">
+        <span data-node-name="text5Content">你是独一无二的</span>
+        <span class="smiley" data-node-name="smiley">💕</span>
+      </p>
+      <p class="idea-6">
+        <span data-node-name="bigTextPart1">生</span><span data-node-name="bigTextPart2">日</span>
+      </p>
     </div>
 
-    <!-- 步骤 5: 祝福 -->
-    <div class="step step-5" id="step5">
-      <div class="wish-final">
+    <!-- 5. 生日祝福 -->
+    <div class="six">
+      <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">生日快乐！</h3>
-        <h5 class="wish-text" data-node-name="wishText">愿你被这个世界温柔以待 ✨</h5>
+        <h5 data-node-name="wishText">愿你被这个世界温柔以待 ✨</h5>
       </div>
     </div>
 
-    <!-- 步骤 6: 结尾 -->
-    <div class="step step-6" id="step6">
-      <p data-node-name="outroText">好了，这份惊喜你喜欢吗？</p>
+    <!-- 6. 气球 -->
+    <div class="seven">
+      <div class="baloons">
+        <img src="img/ballon2.svg" alt=""><img src="img/ballon1.svg" alt=""><img src="img/ballon3.svg" alt="">
+        <img src="img/ballon1.svg" alt=""><img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt="">
+        <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
+        <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
+        <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
+        <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
+        <img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt=""><img src="img/ballon2.svg" alt="">
+        <img src="img/ballon3.svg" alt=""><img src="img/ballon2.svg" alt=""><img src="img/ballon1.svg" alt="">
+      </div>
+    </div>
+
+    <!-- 7. 粒子圆圈 -->
+    <div class="eight">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+    </div>
+
+    <!-- 8. 结尾（许愿之后的完整祝福） -->
+    <div class="nine">
+      <p class="end-1" data-node-name="endIntro1">愿望已经偷偷收好啦 ✨</p>
+      <p class="end-2" data-node-name="endIntro2">不管它会不会实现</p>
+      <p class="end-3" data-node-name="endIntro3">我都希望你——</p>
+      <div class="end-wishes">
+        <p class="end-wish" data-node-name="endWish1">天天开心 🌸</p>
+        <p class="end-wish" data-node-name="endWish2">万事顺意 🌟</p>
+        <p class="end-wish" data-node-name="endWish3">永远被爱 💕</p>
+      </div>
+      <p class="end-final" data-node-name="endFinal">生日快乐！</p>
+      <p class="last-smile" data-node-name="outroSmiley">🎂</p>
       <p id="replay" data-node-name="replayText">点击这里再看一遍 🔄</p>
-      <p class="last-smile" data-node-name="outroSmiley">💕</p>
     </div>
+  </div>
 
-    <!-- 气球 -->
-    <div class="balloons" id="balloons">
-      <img src="img/ballon2.svg" alt=""><img src="img/ballon1.svg" alt=""><img src="img/ballon3.svg" alt="">
-      <img src="img/ballon1.svg" alt=""><img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt="">
-      <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
-      <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
-      <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
-      <img src="img/ballon2.svg" alt=""><img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt="">
-      <img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt=""><img src="img/ballon2.svg" alt="">
-      <img src="img/ballon3.svg" alt=""><img src="img/ballon2.svg" alt=""><img src="img/ballon1.svg" alt="">
-      <img src="img/ballon3.svg" alt=""><img src="img/ballon1.svg" alt=""><img src="img/ballon2.svg" alt="">
-    </div>
-
-    <!-- 粒子 -->
-    <div class="particles" id="particles"></div>
-
-    <!-- 许愿弹窗 -->
-    <div class="wish-overlay" id="wishOverlay">
-      <div class="wish-dialog">
-        <div class="wish-dialog-header">
-          <span class="wish-icon">🎂</span>
-          <span class="wish-title">许个愿吧</span>
-        </div>
-        <p class="wish-hint">偷偷告诉我你的生日愿望 🤫</p>
-        <input type="text" id="wishInput" class="wish-input" placeholder="写下你的愿望..." maxlength="200" />
-        <button id="submitWish" class="wish-btn">提交愿望 ✨</button>
-        <div id="wishConfirm" class="wish-confirm" style="display:none">
-          <span class="confirm-icon">💕</span>
-          <span>愿望收到啦！继续吧～</span>
-        </div>
+  <!-- 许愿弹窗 -->
+  <div class="wish-overlay" id="wishOverlay">
+    <div class="wish-dialog">
+      <div class="wish-dialog-header">
+        <span class="wish-icon">🎂</span>
+        <span class="wish-title">许个愿吧</span>
+      </div>
+      <p class="wish-hint">偷偷告诉我你的生日愿望 🤫</p>
+      <input type="text" id="wishInput" class="wish-input" placeholder="写下你的愿望..." maxlength="200" />
+      <button id="submitWish" class="wish-btn">提交愿望 ✨</button>
+      <div id="wishConfirm" class="wish-confirm" style="display:none">
+        <span class="confirm-icon">💕</span>
+        <span>愿望收到啦！</span>
       </div>
     </div>
-
   </div>
 
   <!-- 音乐 -->
   <audio id="bgMusic" loop><source src="music/birthday.mp3" type="audio/mpeg"></audio>
   <button id="musicBtn" class="music-btn" title="播放/暂停">🔇</button>
 
+  <script src="js/gsap.min.js"></script>
   <script src="script/main.js"></script>
 </body>
 </html>
