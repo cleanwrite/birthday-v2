@@ -323,13 +323,13 @@ const animationTimeline = () => {
 
   // Restart Animation on click (防抖：确保是真实点击)
   const replyBtn = document.getElementById("replay");
-  replyBtn.addEventListener("click", function(e) {
-    e.stopPropagation();
+  replyBtn.onclick = function() {
     document.getElementById("wishInput").style.display = "";
     document.getElementById("submitWish").style.display = "";
     document.getElementById("wishConfirm").style.display = "none";
     tl.restart();
-  }, true); // capture phase
+    return false;
+  }; // capture phase
 };
 
 // Run fetch and animation in sequence
