@@ -311,15 +311,18 @@ const animationTimeline = () => {
   // tl.seek("currentStep");
   // tl.timeScale(2);
 
-  // Restart Animation on click
+  // Restart Animation on click (防抖：确保是真实点击)
   const replyBtn = document.getElementById("replay");
-  replyBtn.addEventListener("click", () => {
+  replyBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    e.preventDefault();
     // 重置许愿区域
     document.getElementById("wishInput").style.display = "";
     document.getElementById("submitWish").style.display = "";
     document.getElementById("wishConfirm").style.display = "none";
     tl.restart();
-  });
+    return false;
+  }, true); // capture phase
 };
 
 // Run fetch and animation in sequence
