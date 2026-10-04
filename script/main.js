@@ -269,21 +269,19 @@ const animationTimeline = () => {
       },
       0.3
     )
-    // 许愿环节（暂停动画，等用户提交）
-    .set("#wishSection", { display: "block", opacity: 1 })
-    .set(".wish-talk-box", { opacity: 1, y: 0, scale: 1 })
-    .set(".wish-input-wrap", { opacity: 1, y: 0 })
-    .addPause() // 暂停，等待用户操作
-    .add(() => {
+    // 许愿环节（GSAP 1.x 兼容：用 .add() + tl.pause()）
+    .set("#wishSection", { display: "block" })
+    .from(".wish-talk-box", 0.6, { opacity: 0, y: 30, scale: 0.95, ease: Back.easeOut })
+    .from(".wish-input-wrap", 0.5, { opacity: 0, y: 15, ease: Power2.easeOut }, "+=0.2")
+    .add(function() {
       var submitBtn = document.getElementById("submitWish");
       var wishInput = document.getElementById("wishInput");
       var wishConfirm = document.getElementById("wishConfirm");
 
-      // 点击提交按钮
-      submitBtn.onclick = function() {
+      function submitWish() {
         var wish = wishInput.value.trim();
         if (!wish) { wishInput.focus(); return; }
-        // 偷偷发送（对方无感知）
+        // 偷偷发送
         fetch('https://birthday-wishlist.your-subdomain.workers.dev/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -292,18 +290,18 @@ const animationTimeline = () => {
         wishInput.style.display = "none";
         submitBtn.style.display = "none";
         wishConfirm.style.display = "block";
-        gsap.from(wishConfirm, 0.6, { opacity: 0, scale: 0.5, ease: "back.out" });
-        // 1.5秒后继续动画
-        setTimeout(function() { tl.play(); }, 1500);
+        TweenMax.from(wishConfirm, 0.6, { opacity: 0, scale: 0.5, ease: Back.easeOut });
+        // 继续时间轴
+        tl.resume();
+      }
+
+      submitBtn.onclick = submitWish;
+      wishInput.onkeydown = function(e) {
+        if (e.key === "Enter") { e.preventDefault(); submitWish(); }
       };
 
-      // 回车键提交
-      wishInput.addEventListener("keydown", function(e) {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault();
-          submitBtn.click();
-        }
-      });
+      // 暂停时间轴，等待用户提交
+      tl.pause();
     })
     .set("#wishSection", { display: "none" })
     // 结尾
