@@ -63,12 +63,12 @@
       const el = $("#step1");
       el.classList.add("visible");
       el.querySelector(".title").classList.add("anim-fadeInUp");
-      timer = setTimeout(() => showStep(2), 3500);
+      timer = setTimeout(() => showStep(2), 4000);
     } else if (n === 2) {
       const el = $("#step2");
       el.classList.add("visible");
       el.querySelector(".big-text").classList.add("anim-scaleIn");
-      timer = setTimeout(() => showStep(3), 3000);
+      timer = setTimeout(() => showStep(3), 3500);
     } else if (n === 3) {
       const el = $("#step3");
       el.classList.add("visible");
@@ -87,9 +87,10 @@
         setTimeout(() => {
           t.classList.add("anim-fadeInUp");
           t.style.opacity = "1";
-        }, i * 1200);
+        }, i * 1500);
       });
-      timer = setTimeout(() => showStep(5), thinks.length * 1200 + 2000);
+      // 等所有思考显示完 + 大字动画
+      timer = setTimeout(() => showStep(5), thinks.length * 1500 + 3000);
     } else if (n === 5) {
       const el = $("#step5");
       el.classList.add("visible");
@@ -100,10 +101,10 @@
       balloons.classList.add("visible");
       const imgs = balloons.querySelectorAll("img");
       imgs.forEach((img, i) => {
-        img.style.left = `${10 + (i % 7) * 13}%`;
-        img.style.animation = `floatUp ${4 + Math.random() * 3}s linear ${i * 0.15}s forwards`;
+        img.style.left = `${5 + (i % 8) * 12}%`;
+        img.style.animation = `floatUp ${5 + Math.random() * 3}s linear ${i * 0.2}s forwards`;
       });
-      timer = setTimeout(() => showWish(), 4000);
+      timer = setTimeout(() => showWish(), 5000);
     } else if (n === 6) {
       const el = $("#step6");
       el.classList.add("visible");
