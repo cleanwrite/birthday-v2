@@ -5,11 +5,13 @@ html {
 body {
   margin: 0;
   font-family: "Work Sans", sans-serif;
+  overflow: hidden;
 }
 
 .container {
   height: 100vh;
-  width: 100vh;
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
   visibility: hidden;
@@ -17,45 +19,48 @@ body {
   overflow: hidden;
 }
 
-.container div.six {
-  top: 10vh;
-  z-index: 1;
-}
-
-.container div.seven,
-.container div.eight {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-}
-
+/* 所有步骤共享同一位置，只有当前步骤可见 */
 .container > div {
   position: absolute;
   left: 0;
   right: 0;
-  top: 20vh;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
 }
 
-.one {
-  font-size: 4.5rem;
+.container > div.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.one > img {
-  vertical-align: middle;
-  margin-bottom: 10px;
-  max-width: 100%;
-  height: auto;
+/* fixed 元素不受 container 限制 */
+.container div.seven,
+.container div.eight,
+.container .wish-card-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: none;
 }
 
-.two {
-  font-size: 1.2rem;
-  font-weight: lighter;
+/* 步骤内层不自稳定位 */
+.container > div > div {
+  position: relative;
 }
 
-.three {
-  font-size: 3rem;
-}
+/* --- 各步骤样式 --- */
+.one { font-size: 4.5rem; }
+.one > img { vertical-align: middle; margin-bottom: 10px; max-width: 100%; height: auto; }
+
+.two { font-size: 1.2rem; font-weight: lighter; }
+.three { font-size: 3rem; }
 
 .four .text-box {
   width: 600px;
@@ -65,16 +70,8 @@ body {
   padding: 10px;
   position: relative;
 }
-
-.text-box p {
-  margin: 0;
-  text-align: left;
-}
-
-.text-box span {
-  visibility: hidden;
-}
-
+.text-box p { margin: 0; text-align: left; }
+.text-box span { visibility: hidden; }
 .text-box .fake-btn {
   position: absolute;
   right: 5px;
@@ -85,157 +82,49 @@ body {
   border-radius: 3px;
 }
 
-.five p {
-  font-size: 2rem;
-  position: absolute;
-  left: 0;
-  right: 0;
-}
+.five p { font-size: 2rem; position: absolute; left: 0; right: 0; }
+.idea-3 strong { padding: 3px 5px; border-radius: 3px; display: inline-block; }
+.five .idea-5 { font-size: 4rem; }
+.idea-5 span, .idea-6 span, .wish-hbd span { display: inline-block; }
+.idea-6 span { font-size: 15rem; }
 
-.idea-3 strong {
-  padding: 3px 5px;
-  border-radius: 3px;
-  display: inline-block;
-}
+.six { position: relative; }
+.six img { display: inline-block; max-width: 100%; height: auto; }
 
-.five .idea-5 {
-  font-size: 4rem;
-}
+.baloons img { display: inline-block; position: absolute; }
+.baloons img:nth-child(even) { left: -10%; }
+.baloons img:nth-child(odd) { right: -10%; }
+.baloons img:nth-child(3n + 0) { left: 30%; }
 
-.idea-5 span,
-.idea-6 span,
-.wish-hbd span {
-  display: inline-block;
-}
+.eight svg { width: 25px; position: absolute; top: 0; left: 0; visibility: hidden; z-index: -1; }
+.eight svg:nth-child(1) { top: 7vh; left: 5vw; fill: #bd6ecf; }
+.eight svg:nth-child(2) { top: 23vh; left: 35vw; fill: #7dd175; }
+.eight svg:nth-child(3) { top: 33vh; left: 23vw; fill: #349d8b; }
+.eight svg:nth-child(4) { top: 43vh; left: 57vw; fill: #347a9d; }
+.eight svg:nth-child(5) { top: 68vh; left: 7vw; fill: #c66053; }
+.eight svg:nth-child(6) { top: 42vh; left: 77vw; fill: #bfaa40; }
+.eight svg:nth-child(7) { top: 68vh; left: 83vw; fill: #e3bae8; }
+.eight svg:nth-child(8) { top: 86vh; left: 37vw; fill: #8762cb; }
+.eight svg:nth-child(9) { top: 94vh; left: 87vw; fill: #9a90da; }
 
-.idea-6 span {
-  font-size: 15rem;
-}
+.wish-hbd { font-size: 3em; margin: 0; text-transform: uppercase; }
+.wish h5 { font-weight: lighter; font-size: 2rem; margin: 10px 0 0; }
 
-.six {
-  position: relative;
-}
+.nine p { font-size: 2rem; font-weight: lighter; }
+#replay { z-index: 3; cursor: pointer; }
 
-.six img {
-  display: inline-block;
-  max-width: 100%;
-  height: auto;
-}
-
-.six .hat {
-  position: absolute;
-  width: 80px;
-  top: -35px;
-  left: 41.5%;
-  /* transform: scale(0.1); */
-}
-
-.baloons img {
-  display: inline-block;
-  position: absolute;
-}
-
-.baloons img:nth-child(even) {
-  left: -10%;
-}
-
-.baloons img:nth-child(odd) {
-  right: -10%;
-}
-
-.baloons img:nth-child(3n + 0) {
-  left: 30%;
-}
-
-.eight svg {
-  width: 25px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  z-index: -1;
-}
-
-.eight svg:nth-child(1) {
-  top: 7vh;
-  left: 5vw;
-  fill: #bd6ecf;
-}
-
-.eight svg:nth-child(2) {
-  top: 23vh;
-  left: 35vw;
-  fill: #7dd175;
-}
-
-.eight svg:nth-child(3) {
-  top: 33vh;
-  left: 23vw;
-  fill: #349d8b;
-}
-
-.eight svg:nth-child(4) {
-  top: 43vh;
-  left: 57vw;
-  fill: #347a9d;
-}
-
-.eight svg:nth-child(5) {
-  top: 68vh;
-  left: 7vw;
-  fill: #c66053;
-}
-
-.eight svg:nth-child(6) {
-  top: 42vh;
-  left: 77vw;
-  fill: #bfaa40;
-}
-
-.eight svg:nth-child(7) {
-  top: 68vh;
-  left: 83vw;
-  fill: #e3bae8;
-}
-
-.eight svg:nth-child(8) {
-  top: 86vh;
-  left: 37vw;
-  fill: #8762cb;
-}
-
-.eight svg:nth-child(9) {
-  top: 94vh;
-  left: 87vw;
-  fill: #9a90da;
-}
-
-.wish-hbd {
-  font-size: 3em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.wish h5 {
-  font-weight: lighter;
-  font-size: 2rem;
-  margin: 10px 0 0;
-}
-
-
-/* 许愿对话气泡（复用 .four .text-box 风格） */
-.ten {
-  position: relative;
-}
-/* 许愿弹出卡片 */
+/* 许愿卡片 */
 .wish-card-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
 }
+.wish-card-overlay.active { opacity: 1; pointer-events: auto; }
+
 .wish-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
@@ -245,16 +134,8 @@ body {
   max-width: 420px;
   width: 90%;
 }
-.wish-card-title {
-  font-size: 2rem;
-  color: #ff69b4;
-  margin: 0 0 8px;
-}
-.wish-card-sub {
-  font-size: 1rem;
-  color: #888;
-  margin: 0 0 20px;
-}
+.wish-card-title { font-size: 2rem; color: #ff69b4; margin: 0 0 8px; }
+.wish-card-sub { font-size: 1rem; color: #888; margin: 0 0 20px; }
 .wish-card-input {
   width: 100%;
   padding: 12px 16px;
@@ -281,55 +162,32 @@ body {
   font-family: inherit;
 }
 .wish-card-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,105,180,0.4); }
-.wish-card-confirm {
-  font-size: 1.3rem;
-  color: #ff69b4;
-  margin-top: 16px;
-  font-weight: 600;
-}
-.nine p {
-  font-size: 2rem;
-  font-weight: lighter;
-}
+.wish-card-confirm { font-size: 1.3rem; color: #ff69b4; margin-top: 16px; font-weight: 600; }
 
-#replay {
-  z-index: 3;
-  cursor: pointer;
+/* 音乐按钮 */
+.music-btn {
+  position: fixed; top: 20px; right: 20px; z-index: 200;
+  width: 48px; height: 48px; border: none; border-radius: 50%;
+  background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+  font-size: 1.4rem; cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center;
 }
+.music-btn:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
 
-/* Media Queries */
-@media screen and (max-height: 1000px) {
-  .six .hat {
-    left: 40%;
-  }
-}
-
-@media screen and (max-height: 800px) {
-  .six .hat {
-    left: 37%;
-  }
-}
-
-@media screen and (max-height: 700px) {
-  .six .hat {
-    left: 32%;
-  }
-}
-
-@media screen and (max-height: 850px) and (max-width: 450px) {
-  .six .hat {
-    left: 32%;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .container { width: 90%; }
+/* --- 媒体查询 --- */
+@media screen and (max-width: 600px) {
+  .container { max-width: 100%; }
+  .one { font-size: 2.5rem; }
+  .two { font-size: 1rem; }
+  .three { font-size: 1.8rem; }
   .four .text-box { width: 90%; }
+  .five p { font-size: 1.3rem; }
+  .five .idea-5 { font-size: 2.5rem; }
+  .idea-6 span { font-size: 8rem; }
+  .wish-hbd { font-size: 2em; }
+  .wish h5 { font-size: 1.2rem; }
+  .nine p { font-size: 1.3rem; }
+  .wish-card { padding: 24px 20px; }
+  .wish-card-title { font-size: 1.5rem; }
   .text-box .fake-btn { right: 5px; bottom: -38px; }
-  .idea-5 span { display: block; }
-  .idea-6 span { font-size: 10rem; }
-  .wish-hbd { font-size: 2.2em; }
-  .wish h5 { font-size: 1.4rem; }
-  .nine p { font-size: 1.5rem; font-weight: lighter; }
-  .wish-card { padding: 28px 24px; }
 }
