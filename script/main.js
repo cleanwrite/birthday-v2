@@ -209,23 +209,15 @@ const animationTimeline = () => {
       0.2
     )
     .from(
-      ".lydia-dp",
+      ".wish",
       0.5,
       {
-        scale: 3.5,
+        scale: 2.5,
         opacity: 0,
-        x: 25,
-        y: -25,
-        rotationZ: -45
+        rotationZ: -15
       },
       "-=2"
     )
-    .from(".hat", 0.5, {
-      x: -100,
-      y: 350,
-      rotation: -180,
-      opacity: 0
-    })
     .staggerFrom(
       ".wish-hbd span",
       0.7,
@@ -277,11 +269,6 @@ const animationTimeline = () => {
       },
       0.3
     )
-    .to(".six", 0.5, {
-      opacity: 0,
-      y: 30,
-      zIndex: "-1"
-    })
     // 许愿环节
     .set(".wish-section", { display: "block" })
     .from(".wish-box", 0.8, { opacity: 0, y: 40, scale: 0.9, ease: "back.out" })
