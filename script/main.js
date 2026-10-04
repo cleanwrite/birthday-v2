@@ -15,7 +15,7 @@
   };
 
   // ===== 加载配置（失败时降级：直接用 HTML 默认文案启动） =====
-  fetch("customize.json?v=20261004b")
+  fetch("customize.json?v=20261004c")
     .then((r) => r.json())
     .then((data) => {
       Object.keys(data).forEach((key) => {
