@@ -282,6 +282,33 @@ const animationTimeline = () => {
       y: 30,
       zIndex: "-1"
     })
+    // 许愿环节
+    .set(".wish-section", { display: "block" })
+    .from(".wish-box", 0.8, { opacity: 0, y: 40, scale: 0.9, ease: "back.out" })
+    .from(".wish-label", 0.5, { opacity: 0, y: -10 }, "+=0.2")
+    .from(".wish-input", 0.5, { opacity: 0, scaleX: 0.8, ease: "power2.out" }, "+=0.2")
+    .from(".wish-submit-btn", 0.5, { opacity: 0, y: 10, ease: "back.out" }, "+=0.2")
+    .add(() => {
+      // 许愿提交逻辑
+      var submitBtn = document.getElementById("submitWish");
+      var wishInput = document.getElementById("wishInput");
+      var wishConfirm = document.getElementById("wishConfirm");
+      submitBtn.onclick = function() {
+        var wish = wishInput.value.trim();
+        if (!wish) { wishInput.focus(); return; }
+        // 存到 localStorage
+        var wishes = JSON.parse(localStorage.getItem("birthdayWishes") || "[]");
+        wishes.push({ text: wish, time: new Date().toLocaleString("zh-CN") });
+        localStorage.setItem("birthdayWishes", JSON.stringify(wishes));
+        wishInput.style.display = "none";
+        submitBtn.style.display = "none";
+        wishConfirm.style.display = "block";
+        gsap.from(wishConfirm, 0.6, { opacity: 0, scale: 0.5, ease: "back.out" });
+      };
+    })
+    .to(".wish-section", 0.5, { opacity: 0, y: -20 }, "+=1.5")
+    .set(".wish-section", { display: "none" })
+    // 结尾
     .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
     .to(
       ".last-smile",
@@ -298,6 +325,10 @@ const animationTimeline = () => {
   // Restart Animation on click
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
+    // 重置许愿区域
+    document.getElementById("wishInput").style.display = "";
+    document.getElementById("submitWish").style.display = "";
+    document.getElementById("wishConfirm").style.display = "none";
     tl.restart();
   });
 };
