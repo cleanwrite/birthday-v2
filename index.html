@@ -9,64 +9,11 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <style>
-    .music-btn {
-      position: fixed; top: 20px; right: 20px; z-index: 9999;
-      width: 48px; height: 48px; border: none; border-radius: 50%;
-      background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
-      font-size: 1.4rem; cursor: pointer; transition: all 0.3s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .music-btn:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
-
-    /* 愿望输入 */
-    .wish-input-overlay {
-      position: fixed; inset: 0; z-index: 10000;
-      background: rgba(10,0,21,0.85); backdrop-filter: blur(15px);
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity 0.5s;
-    }
-    .wish-input-overlay.hidden { opacity: 0; pointer-events: none; }
-    .wish-input-box {
-      text-align: center; padding: 40px; max-width: 500px; width: 90%;
-    }
-    .wish-input-box h2 {
-      font-size: 2rem; color: #ff69b4; margin-bottom: 20px;
-    }
-    .wish-input-box textarea {
-      width: 100%; height: 120px; padding: 15px; border: 2px solid rgba(255,105,180,0.3);
-      border-radius: 15px; background: rgba(255,255,255,0.1); color: #fff;
-      font-size: 1.1rem; font-family: inherit; resize: none; outline: none;
-      transition: border-color 0.3s;
-    }
-    .wish-input-box textarea:focus { border-color: #ff69b4; }
-    .wish-input-box textarea::placeholder { color: rgba(255,255,255,0.4); }
-    .submit-wish-btn {
-      margin-top: 20px; padding: 12px 36px; font-size: 1.1rem;
-      background: linear-gradient(45deg, #ff69b4, #ff1493); color: #fff;
-      border: none; border-radius: 30px; cursor: pointer;
-      transition: all 0.3s; box-shadow: 0 5px 20px rgba(255,105,180,0.4);
-    }
-    .submit-wish-btn:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(255,105,180,0.6); }
-    .wish-hint { margin-top: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
-  </style>
 </head>
 
 <body>
-  <audio id="bgMusic" loop>
-    <source src="music/birthday.mp3" type="audio/mpeg">
-  </audio>
-  <button id="musicBtn" class="music-btn" title="播放/暂停">🔇</button>
-  <div class="wish-input-overlay" id="wishOverlay">
-    <div class="wish-input-box">
-      <h2>🎂 许个愿吧</h2>
-      <textarea id="wishInput" placeholder="写下你的生日愿望..." maxlength="200"></textarea>
-      <button id="submitWishBtn" class="submit-wish-btn">提交愿望 ✨</button>
-      <p class="wish-hint">你的愿望会保存在这里 💫</p>
-    </div>
-  </div>
-
   <div class="container">
+    <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
         <span data-node-name="name">Lydia</span>
@@ -101,7 +48,7 @@
     <div class="six">
       <div class="wish-final">
         <h3 class="wish-hbd" data-node-name="wishHeading">生日快乐！</h3>
-        <h5 data-node-name="wishText">愿你被这个世界温柔以待</h5>
+        <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
       </div>
     </div>
     <div class="seven">
@@ -142,33 +89,15 @@
       </div>
     </div>
     <div class="eight">
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" /></svg>
     </div>
     <div class="nine">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
@@ -176,58 +105,29 @@
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
     </div>
   </div>
-</body>
+
+  <audio id="bgMusic" loop>
+    <source src="music/birthday.mp3" type="audio/mpeg">
+  </audio>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script>
   // 音频控制
-  const bgMusic = document.getElementById('bgMusic');
-  const musicBtn = document.getElementById('musicBtn');
-  let isPlaying = false;
-  musicBtn.addEventListener('click', () => {
-    if (isPlaying) { bgMusic.pause(); musicBtn.textContent = '🔇'; isPlaying = false; }
-    else { bgMusic.play().then(() => { musicBtn.textContent = '🔊'; isPlaying = true; }).catch(() => {}); }
-  });
-  document.body.addEventListener('click', () => {
-    if (!isPlaying) { bgMusic.play().then(() => { musicBtn.textContent = '🔊'; isPlaying = true; }).catch(() => {}); }
-  }, { once: true });
-
-  // 愿望提交（存到 localStorage）
-  const wishOverlay = document.getElementById('wishOverlay');
-  const wishInput = document.getElementById('wishInput');
-  const submitWishBtn = document.getElementById('submitWishBtn');
-  submitWishBtn.addEventListener('click', () => {
-    const wish = wishInput.value.trim();
-    if (!wish) { wishInput.focus(); return; }
-    const wishes = JSON.parse(localStorage.getItem('birthdayWishes') || '[]');
-    wishes.push({ text: wish, time: new Date().toLocaleString('zh-CN') });
-    localStorage.setItem('birthdayWishes', JSON.stringify(wishes));
-    wishOverlay.classList.add('hidden');
-  });
-
-  // 查看愿望按钮（在 replay 旁边）
-  const replayBtn = document.getElementById('replay');
-  const viewWishesBtn = document.createElement('button');
-  viewWishesBtn.textContent = '🎈 查看大家的心愿';
-  viewWishesBtn.className = 'view-wishes-btn';
-  viewWishesBtn.style.cssText = 'display:block;margin:20px auto 0;padding:10px 24px;font-size:0.95rem;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:30px;color:rgba(255,255,255,0.7);cursor:pointer;transition:all 0.3s;font-family:inherit;';
-  viewWishesBtn.onmouseover = () => { viewWishesBtn.style.background = 'rgba(255,255,255,0.25)'; };
-  viewWishesBtn.onmouseout = () => { viewWishesBtn.style.background = 'rgba(255,255,255,0.15)'; };
-  viewWishesBtn.addEventListener('click', () => {
-    const wishes = JSON.parse(localStorage.getItem('birthdayWishes') || '[]');
-    let html = '<div style="position:fixed;inset:0;z-index:9999;background:rgba(10,0,21,0.9);backdrop-filter:blur(15px);overflow-y:auto;"><div style="max-width:600px;margin:40px auto;padding:20px;text-align:center;"><h2 style="color:#ff69b4;margin-bottom:25px;">🎈 大家的心愿</h2>';
-    if (wishes.length === 0) {
-      html += '<p style="color:rgba(255,255,255,0.5);">还没有人许愿，快来成为第一个吧 ✨</p>';
-    } else {
-      wishes.forEach((w, i) => {
-        html += `<div style="background:rgba(255,255,255,0.08);border-radius:15px;padding:18px;margin-bottom:15px;text-align:left;"><p style="color:#fff;margin-bottom:8px;">${w.text}</p><small style="color:rgba(255,255,255,0.35);">${w.time}</small></div>`;
-      });
-    }
-    html += '<button onclick="this.closest(\'div[style*=fixed]\').remove()" style="margin-top:20px;padding:10px 30px;font-size:1rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:30px;color:#fff;cursor:pointer;font-family:inherit;">关闭</button></div></div>';
-    document.body.insertAdjacentHTML('beforeend', html);
-  });
-  replayBtn.parentNode.insertBefore(viewWishesBtn, replayBtn.nextSibling);
+  (function() {
+    var bgMusic = document.getElementById('bgMusic');
+    var musicBtn = document.createElement('button');
+    musicBtn.innerHTML = '&#x1F507;';
+    musicBtn.title = '播放/暂停';
+    musicBtn.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;width:44px;height:44px;border:none;border-radius:50%;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);font-size:1.3rem;cursor:pointer;transition:all 0.3s;';
+    document.body.appendChild(musicBtn);
+    var playing = false;
+    musicBtn.onclick = function() {
+      if (playing) { bgMusic.pause(); musicBtn.innerHTML = '&#x1F507;'; playing = false; }
+      else { bgMusic.play().then(function() { musicBtn.innerHTML = '&#x1F50A;'; playing = true; }).catch(function() {}); }
+    };
+  })();
 </script>
 <script type="application/javascript" src="script/main.js"></script>
 
+</body>
 </html>
