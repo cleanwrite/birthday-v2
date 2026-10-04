@@ -94,8 +94,8 @@ body {
 }
 
 .idea-3 strong {
-  padding: 3px 8px;
-  border-radius: 3px;
+  padding: 1px 5px;
+  border-radius: 4px;
   display: inline-block;
   color: #ff69b4;
 }
@@ -109,7 +109,7 @@ body {
 }
 
 .idea-6 span {
-  font-size: 15rem;
+  font-size: 11rem;
   color: #ff69b4;
 }
 
@@ -129,16 +129,19 @@ body {
   color: #888;
 }
 
-/* ===== 6. 气球（放大版） ===== */
+/* ===== 6. 气球（放大版，6 个横向位置均匀分布） ===== */
 .baloons img {
   display: inline-block;
   position: absolute;
-  width: 280px;
+  width: 260px;
 }
 
-.baloons img:nth-child(even) { left: -6%; }
-.baloons img:nth-child(odd) { right: -6%; }
-.baloons img:nth-child(3n + 0) { left: 28%; }
+.baloons img:nth-child(6n + 1) { left: 2%; }
+.baloons img:nth-child(6n + 2) { left: 18%; }
+.baloons img:nth-child(6n + 3) { left: 36%; }
+.baloons img:nth-child(6n + 4) { left: 54%; }
+.baloons img:nth-child(6n + 5) { left: 70%; }
+.baloons img:nth-child(6n + 6) { left: 86%; }
 
 /* ===== 7. 粒子圆圈 ===== */
 .eight svg {
@@ -172,6 +175,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
+  padding-bottom: 10vh; /* 内容整体上移，视觉更舒适 */
 }
 
 .nine p {
@@ -369,12 +373,16 @@ body {
   .five p { font-size: 1.3rem; }
   .five .idea-5 { font-size: 2.2rem; }
   .idea-5 span { display: block; }
-  .idea-6 span { font-size: 8rem; }
+  .idea-6 span { font-size: 7rem; }
 
   .wish-hbd { font-size: 1.8em; }
   .wish h5 { font-size: 1.2rem; }
 
-  .baloons img { width: 160px; }
+  .baloons img { width: 150px; }
+  .baloons img:nth-child(6n + 5) { left: 56%; }
+  .baloons img:nth-child(6n + 6) { left: 72%; }
+
+  .nine { padding-bottom: 8vh; }
 
   .nine p { font-size: 1.1rem; }
   .end-wish { font-size: 1.5rem !important; }

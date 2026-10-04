@@ -14,7 +14,7 @@
     else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
   };
 
-  // ===== 加载配置 =====
+  // ===== 加载配置（失败时降级：直接用 HTML 默认文案启动） =====
   fetch("customize.json")
     .then((r) => r.json())
     .then((data) => {
@@ -23,7 +23,8 @@
         if (el && data[key]) el.innerText = data[key];
       });
       init();
-    });
+    })
+    .catch(() => init());
 
   let tl;
 
@@ -68,29 +69,30 @@
       .from(".idea-2", { duration: 0.7, ...ideaIn })
       .to(".idea-2", { duration: 0.7, ...ideaOut }, "+=1.5")
       .from(".idea-3", { duration: 0.7, ...ideaIn })
-      .to(".idea-3 strong", { duration: 0.5, scale: 1.2, x: 10, backgroundColor: "rgb(21, 161, 237)", color: "#fff" })
+      .to(".idea-3 strong", { duration: 0.5, scale: 1.08, backgroundColor: "rgb(21, 161, 237)", color: "#fff", ease: "power2.out" })
       .to(".idea-3", { duration: 0.7, ...ideaOut }, "+=1.5")
       .from(".idea-4", { duration: 0.7, ...ideaIn })
       .to(".idea-4", { duration: 0.7, ...ideaOut }, "+=1.5")
       .from(".idea-5", { duration: 0.7, rotateX: 15, rotateZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=0.5")
-      .to(".idea-5 .smiley", { duration: 0.7, rotate: 90, x: 8 }, "+=0.4")
+      .to(".idea-5 .smiley", { duration: 0.6, rotate: 15, scale: 1.15, ease: "back.out(2)" }, "+=0.4")
       .to(".idea-5", { duration: 0.7, scale: 0.2, opacity: 0 }, "+=2")
 
-      // 5. 生日大字
-      .from(".idea-6 span", { duration: 0.8, scale: 3, opacity: 0, rotate: 15, ease: "expo.out", stagger: 0.2 })
-      .to(".idea-6 span", { duration: 0.8, scale: 3, opacity: 0, rotate: -15, ease: "expo.out", stagger: 0.2 }, "+=1")
+      // 5. 生日大字（入场轻微交错，退场全同步防错位）
+      .from(".idea-6 span", { duration: 0.8, scale: 2.5, opacity: 0, rotate: 12, ease: "expo.out", stagger: 0.15 })
+      .to(".idea-6 span", { duration: 0.7, scale: 2.5, opacity: 0, ease: "power2.in", stagger: 0 }, "+=1.2")
 
-      // 6. 气球升空
+      // 6. 气球升空（减速：4.5s 缓慢飘升）
       .fromTo(".baloons img",
-        { opacity: 0.9, y: 1400 },
-        { opacity: 1, y: -1000, duration: 2.5, stagger: 0.2 })
+        { opacity: 0, y: 1400 },
+        { opacity: 0.95, y: -1100, duration: 4.5, stagger: 0.18, ease: "none" })
 
       // 7. 生日祝福
       .set(".six", { opacity: 1, y: 0 })
       .from(".wish", { duration: 0.5, scale: 2.5, opacity: 0, rotateZ: -15 }, "-=2")
       .from(".wish-hbd span", { duration: 0.7, opacity: 0, y: -50, rotate: 150, skewX: "30deg", ease: "elastic.out(1, 0.5)", stagger: 0.1 })
-      .to(".wish-hbd span", { duration: 0.7, scale: 1, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.1 }, "party")
-      .from(".wish h5", { duration: 0.5, opacity: 0, y: 10, skewX: "-15deg" }, "party")
+      .addLabel("party")
+      .to(".wish-hbd span", { duration: 0.7, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.08 }, "party")
+      .from(".wish h5", { duration: 0.5, opacity: 0, y: 10, skewX: "-15deg" }, "party+=0.3")
 
       // 8. 粒子爆炸
       .to(".eight svg", { visibility: "visible", opacity: 0, scale: 80, repeat: 1, repeatDelay: 1.2, duration: 1.5, stagger: 0.3 })
@@ -112,10 +114,10 @@
       .from(".end-1", { duration: 0.8, opacity: 0, y: 25 })
       .from(".end-2", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
       .from(".end-3", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
-      .from(".end-wish", { duration: 0.6, opacity: 0, scale: 0.5, ease: "back.out", stagger: 0.5 }, "+=0.8")
-      .from(".end-final", { duration: 1, opacity: 0, scale: 3, ease: "elastic.out(1, 0.4)" }, "+=0.6")
-      .from(".last-smile", { duration: 0.5, opacity: 0, scale: 0 }, "+=0.3")
-      .to(".last-smile", { duration: 0.5, rotate: 360 }, "+=0.5")
+      .from(".end-wish", { duration: 0.6, opacity: 0, scale: 0.5, ease: "back.out(2)", stagger: 0.5 }, "+=0.8")
+      .from(".end-final", { duration: 1, opacity: 0, scale: 2, ease: "elastic.out(1, 0.5)" }, "+=0.6")
+      .from(".last-smile", { duration: 0.6, opacity: 0, scale: 0, ease: "back.out(2)" }, "+=0.2")
+      .to(".last-smile", { duration: 0.45, rotate: 12, yoyo: true, repeat: 1, ease: "sine.inOut" }, "+=0.3")
       .from("#replay", { duration: 0.6, opacity: 0 }, "+=0.5");
 
     // ===== 开始播放 =====
