@@ -290,7 +290,7 @@ const animationTimeline = () => {
         wishInput.style.display = "none";
         submitBtn.style.display = "none";
         wishConfirm.style.display = "block";
-        TweenMax.from(wishConfirm, 0.6, { opacity: 0, scale: 0.5, ease: Back.easeOut });
+        TweenMax.from(wishConfirm, 0.6, { opacity: 0, scale: 0.5, ease: Back.easeOut, onComplete: function() { tl.resume(); } });
         // 继续时间轴
         tl.resume();
       }
