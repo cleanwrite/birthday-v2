@@ -19,9 +19,8 @@ function start() {
   chat.innerHTML = chat.innerHTML.split("").map(c => `<span>${c}</span>`).join("");
   hbd.innerHTML = hbd.innerHTML.split("").map(c => `<span>${c}</span>`).join("");
 
-  const step = (sel) => document.querySelector(sel);
-  const ideaTrans = { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" };
-  const ideaOut = { opacity: 0, y: 20, rotationY: 5, skewX: "-15deg" };
+  const show = (sel) => TweenMax.set(sel, { opacity: 1, pointerEvents: "auto" });
+  const hide = (sel) => TweenMax.set(sel, { opacity: 0, pointerEvents: "none" });
 
   const tl = new TimelineMax();
 
@@ -29,9 +28,9 @@ function start() {
   tl.set(".container", { visibility: "visible" })
     .set(".one", { opacity: 1, pointerEvents: "auto" })
     .from(".one", 0.8, { opacity: 0, y: 20 })
-    .from(".two", 0.5, { opacity: 0 })
-    .to(".one", 0.7, { opacity: 0, pointerEvents: "none" }, "+=2.5")
-    .to(".two", 0.5, { opacity: 0 }, "-=0.5")
+    .from(".two", 0.5, { opacity: 0, y: 10 })
+    .to(".one", 0.6, { opacity: 0, pointerEvents: "none" }, "+=2.5")
+    .to(".two", 0.4, { opacity: 0 }, "-=0.4")
 
     // 2. 生日宣言
     .set(".three", { opacity: 1, pointerEvents: "auto" })
@@ -46,23 +45,23 @@ function start() {
     .to(".fake-btn", 0.15, { backgroundColor: "rgb(127,206,248)" })
     .to(".four", 0.5, { scale: 0, opacity: 0, pointerEvents: "none" }, "+=0.7")
 
-    // 4. 思考
+    // 4. 思考序列
     .set(".idea-1", { opacity: 1, pointerEvents: "auto" })
-    .from(".idea-1", 0.7, ideaTrans)
-    .to(".idea-1", 0.7, { ...ideaOut, pointerEvents: "none" }, "+=1.5")
+    .from(".idea-1", 0.7, { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" })
+    .to(".idea-1", 0.7, { opacity: 0, pointerEvents: "none", y: 20 }, "+=1.5")
 
     .set(".idea-2", { opacity: 1, pointerEvents: "auto" })
-    .from(".idea-2", 0.7, ideaTrans)
-    .to(".idea-2", 0.7, { ...ideaOut, pointerEvents: "none" }, "+=1.5")
+    .from(".idea-2", 0.7, { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" })
+    .to(".idea-2", 0.7, { opacity: 0, pointerEvents: "none", y: 20 }, "+=1.5")
 
     .set(".idea-3", { opacity: 1, pointerEvents: "auto" })
-    .from(".idea-3", 0.7, ideaTrans)
+    .from(".idea-3", 0.7, { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" })
     .to(".idea-3 strong", 0.5, { scale: 1.3, x: 10, backgroundColor: "rgb(21,161,237)", color: "#fff" })
-    .to(".idea-3", 0.7, { ...ideaOut, pointerEvents: "none" }, "+=1.5")
+    .to(".idea-3", 0.7, { opacity: 0, pointerEvents: "none", y: 20 }, "+=1.5")
 
     .set(".idea-4", { opacity: 1, pointerEvents: "auto" })
-    .from(".idea-4", 0.7, ideaTrans)
-    .to(".idea-4", 0.7, { ...ideaOut, pointerEvents: "none" }, "+=1.5")
+    .from(".idea-4", 0.7, { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" })
+    .to(".idea-4", 0.7, { opacity: 0, pointerEvents: "none", y: 20 }, "+=1.5")
 
     .set(".idea-5", { opacity: 1, pointerEvents: "auto" })
     .from(".idea-5", 0.7, { rotationX: 15, rotationZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=0.5")
@@ -84,12 +83,11 @@ function start() {
     .from(".wish h5", 0.5, { opacity: 0, y: 10, skewX: "-15deg" }, "party")
     .staggerTo(".eight svg", 1.5, { visibility: "visible", opacity: 0, scale: 80, repeat: 3, repeatDelay: 1.4 }, 0.3)
 
-    // 7. 许愿（暂停等待提交）
+    // 7. 许愿
     .set(".six", { opacity: 0, pointerEvents: "none" })
     .set("#wishSection", { display: "flex" })
     .from(".wish-card", 0.8, { opacity: 0, scale: 0.8, ease: Back.easeOut })
     .add(() => {
-      // 动画到此处暂停，等用户提交
       const submitBtn = document.getElementById("submitWish");
       const wishInput = document.getElementById("wishInput");
       const wishConfirm = document.getElementById("wishConfirm");
@@ -97,7 +95,6 @@ function start() {
       function onSubmit() {
         const val = wishInput.value.trim();
         if (!val) { wishInput.focus(); return; }
-        // 偷偷存储
         fetch("https://birthday-wishlist.xxx.workers.dev/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -107,7 +104,7 @@ function start() {
         submitBtn.style.display = "none";
         wishConfirm.style.display = "block";
         TweenMax.from(wishConfirm, 0.5, { opacity: 0, scale: 0.5, ease: Back.easeOut });
-        setTimeout(() => tl.resume(), 1200);
+        setTimeout(() => tl.resume(), 1500);
       }
 
       submitBtn.onclick = onSubmit;
@@ -115,15 +112,16 @@ function start() {
       wishInput.focus();
       tl.pause();
     })
+    .to(".wish-card-overlay", 0.4, { opacity: 0 })
+    .set("#wishSection", { display: "none", opacity: 1 })
 
     // 8. 结尾
-    .set("#wishSection", { display: "none" })
     .set(".nine", { opacity: 1, pointerEvents: "auto" })
-    .staggerFrom(".nine p", 1, ideaTrans, 1.2)
+    .staggerFrom(".nine p", 1, { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" }, 1.2)
     .to(".last-smile", 0.5, { rotation: 90 }, "+=1");
 
   // 重播
-  document.getElementById("replay").onclick = () => {
+  document.getElementById("replay").onclick = function() {
     document.getElementById("wishInput").style.display = "";
     document.getElementById("submitWish").style.display = "";
     document.getElementById("wishConfirm").style.display = "none";

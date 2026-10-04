@@ -19,7 +19,7 @@ body {
   overflow: hidden;
 }
 
-/* 所有步骤共享同一位置，只有当前步骤可见 */
+/* 所有步骤共享同一位置，GSAP 控制显隐 */
 .container > div {
   position: absolute;
   left: 0;
@@ -27,20 +27,11 @@ body {
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-.container > div.active {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 /* fixed 元素不受 container 限制 */
-.container div.seven,
-.container div.eight,
-.container .wish-card-overlay {
+.container > div.seven,
+.container > div.eight {
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -50,9 +41,16 @@ body {
   transform: none;
 }
 
-/* 步骤内层不自稳定位 */
-.container > div > div {
-  position: relative;
+/* 许愿卡片 overlay */
+.wish-card-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 }
 
 /* --- 各步骤样式 --- */
@@ -114,16 +112,6 @@ body {
 #replay { z-index: 3; cursor: pointer; }
 
 /* 许愿卡片 */
-.wish-card-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.wish-card-overlay.active { opacity: 1; pointer-events: auto; }
 
 .wish-card {
   background: rgba(255, 255, 255, 0.95);
