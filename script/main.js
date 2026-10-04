@@ -15,7 +15,7 @@
   };
 
   // ===== 加载配置（失败时降级：直接用 HTML 默认文案启动） =====
-  fetch("customize.json?v=20261004c")
+  fetch("customize.json?v=20261004e")
     .then((r) => r.json())
     .then((data) => {
       Object.keys(data).forEach((key) => {
@@ -94,8 +94,10 @@
       .to(".wish-hbd span", { duration: 0.7, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.08 }, "party")
       .from(".wish h5", { duration: 0.5, opacity: 0, y: 10, skewX: "-15deg" }, "party+=0.3")
 
-      // 8. 粒子爆炸
-      .to(".eight svg", { visibility: "visible", opacity: 0, scale: 80, repeat: 1, repeatDelay: 1.2, duration: 1.5, stagger: 0.3 })
+      // 8. 粒子爆炸（快速扩散淡出，不停留不叠色）
+      .fromTo(".eight svg",
+        { visibility: "visible", opacity: 0.25, scale: 1 },
+        { opacity: 0, scale: 26, duration: 1.05, repeat: 1, repeatDelay: 0.8, stagger: 0.24, ease: "power1.in" })
 
       // 9. 许愿弹窗（暂停等待提交）
       .add(() => {

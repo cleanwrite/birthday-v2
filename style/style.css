@@ -20,7 +20,7 @@ body {
 }
 
 .container div.six {
-  top: 10vh;
+  top: 9vh;
   z-index: 1;
 }
 
@@ -39,7 +39,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 20vh;
+  top: 12vh; /* 所有场景文字整体上移 */
   pointer-events: none;
 }
 
@@ -175,7 +175,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding-bottom: 10vh; /* 内容整体上移，视觉更舒适 */
+  padding-bottom: 18vh; /* 内容整体上移，视觉更舒适 */
 }
 
 .nine p {
