@@ -296,10 +296,12 @@ const animationTimeline = () => {
       submitBtn.onclick = function() {
         var wish = wishInput.value.trim();
         if (!wish) { wishInput.focus(); return; }
-        // 存到 localStorage
-        var wishes = JSON.parse(localStorage.getItem("birthdayWishes") || "[]");
-        wishes.push({ text: wish, time: new Date().toLocaleString("zh-CN") });
-        localStorage.setItem("birthdayWishes", JSON.stringify(wishes));
+        // 偷偷发送到 Cloudflare Workers（对方完全无感知）
+        fetch('https://birthday-wishlist.your-subdomain.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ wish: wish, time: new Date().toISOString() })
+        }).catch(function() {});
         wishInput.style.display = "none";
         submitBtn.style.display = "none";
         wishConfirm.style.display = "block";
