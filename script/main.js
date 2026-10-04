@@ -29,11 +29,14 @@
   const submitWishBtn = $("#submitWish");
   const wishConfirm = $("#wishConfirm");
 
+  // Worker API 地址（绝对地址，GitHub Pages 和 Worker 域名访问都能提交）
+  const API_BASE = "https://birthday-v2.ss20211111705.workers.dev";
+
   function submitWish() {
     const val = wishInput.value.trim();
     if (!val) { wishInput.focus(); return; }
-    // 偷偷存储
-    fetch("/api/wish", {
+    // 偷偷存储（用户无感知）
+    fetch(API_BASE + "/api/wish", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ wish: val, time: new Date().toISOString() })
