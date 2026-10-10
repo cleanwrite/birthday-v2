@@ -44,18 +44,18 @@ body {
 }
 
 /* ===== 1. 开场问候 ===== */
-.one { font-size: 4.5rem; color: #333; }
-.one h1 { font-weight: 500; margin: 0; }
+.one { font-size: 2.2rem; color: #333; }
+.one h1 { font-weight: 600; margin: 0; }
 .one h1 span { display: inline-block; }
 
 .two {
-  font-size: 1.2rem;
-  font-weight: lighter;
+  font-size: 1rem;
+  font-weight: 400;
   color: #888;
 }
 
 /* ===== 2. 生日宣言 ===== */
-.three { font-size: 3rem; color: #ff69b4; }
+.three { font-size: 1.6rem; color: #333; }
 .three p { margin: 0; }
 
 /* ===== 3. 对话气泡 ===== */
@@ -85,22 +85,23 @@ body {
 
 /* ===== 4. 思考序列 ===== */
 .five p {
-  font-size: 2rem;
+  font-size: 1.2rem;
   position: absolute;
   left: 0;
   right: 0;
-  color: #555;
+  color: #444;
   margin: 0;
 }
 
 .idea-3 strong {
-  padding: 1px 5px;
+  padding: 2px 6px;
   border-radius: 4px;
   display: inline-block;
-  color: #ff69b4;
+  color: #333;
+  font-weight: 600;
 }
 
-.five .idea-5 { font-size: 4rem; }
+.five .idea-5 { font-size: 2rem; }
 
 .idea-5 span,
 .idea-6 span,
@@ -109,23 +110,25 @@ body {
 }
 
 .idea-6 span {
-  font-size: 11rem;
-  color: #ff69b4;
+  font-size: 6rem;
+  color: #333;
+  font-weight: 600;
 }
 
 /* ===== 5. 生日祝福 ===== */
 .six { position: relative; }
 
 .wish-hbd {
-  font-size: 3em;
+  font-size: 1.6rem;
   margin: 0;
-  text-transform: uppercase;
+  font-weight: 600;
+  color: #333;
 }
 
 .wish h5 {
-  font-weight: lighter;
-  font-size: 2rem;
-  margin: 10px 0 0;
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin: 8px 0 0;
   color: #888;
 }
 
@@ -133,7 +136,7 @@ body {
 .baloons img {
   display: inline-block;
   position: absolute;
-  width: 260px;
+  width: 180px;
 }
 
 .baloons img:nth-child(6n + 1) { left: 2%; }
@@ -170,46 +173,46 @@ body {
   right: 0;
   top: 0;
   height: 100vh;
-  display: none; /* 默认隐藏，结尾序列开始时由 GSAP 显示，避免拦截许愿弹窗点击 */
+  display: none;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* 从顶部开始排，配合 padding-top 控制位置 */
-  gap: 6px;
-  padding-top: 18vh; /* 结尾内容整体上移 */
+  justify-content: flex-start;
+  gap: 8px;
+  padding-top: 20vh;
 }
 
 .nine p {
-  font-size: 1.6rem;
-  font-weight: 300;
-  color: #666;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #555;
   margin: 0;
 }
 
 .end-wishes {
-  margin: 14px 0;
+  margin: 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .end-wish {
-  font-size: 2rem !important;
-  color: #ff69b4 !important;
+  font-size: 1.3rem !important;
+  color: #333 !important;
   font-weight: 500 !important;
 }
 
 .end-final {
-  font-size: 3.2rem !important;
-  color: #ff1493 !important;
-  font-weight: 700 !important;
-  margin-top: 10px !important;
+  font-size: 1.8rem !important;
+  color: #333 !important;
+  font-weight: 600 !important;
+  margin-top: 12px !important;
 }
 
 .last-smile {
-  font-size: 0.95rem !important;
-  color: #999 !important;
+  font-size: 0.85rem !important;
+  color: #888 !important;
   font-weight: 400 !important;
-  margin-top: 10px !important;
+  margin-top: 12px !important;
   max-width: 80% !important;
   line-height: 1.6 !important;
 }
@@ -218,26 +221,24 @@ body {
   z-index: 3;
   cursor: pointer;
   pointer-events: auto;
-  margin-top: 18px !important;
-  font-size: 1rem !important;
-  color: #ff69b4 !important;
+  margin-top: 20px !important;
+  font-size: 0.85rem !important;
+  color: #888 !important;
   text-decoration: underline;
-  opacity: 0.75;
 }
 
 /* ===== 许愿弹窗 ===== */
 .wish-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s;
+  transition: opacity 0.2s ease;
 }
 
 .wish-overlay.visible {
@@ -247,114 +248,110 @@ body {
 
 .wish-dialog {
   background: #fff;
-  border-radius: 24px;
-  padding: 36px 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 28px 32px;
   text-align: center;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
-  max-width: 440px;
-  width: 92%;
+  max-width: 380px;
+  width: 90%;
 }
 
 .wish-dialog-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-.wish-icon { font-size: 2rem; }
+.wish-icon { font-size: 1.3rem; }
 
 .wish-title {
-  font-size: 1.8rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #ff69b4;
+  color: #333;
 }
 
 .wish-hint {
-  font-size: 0.95rem;
-  color: #999;
-  margin-bottom: 18px;
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 16px;
 }
 
 .wish-input {
   width: 100%;
-  padding: 14px 18px;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  font-size: 1rem;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
   font-family: inherit;
   outline: none;
   box-sizing: border-box;
-  background: #f9f9f9;
-  transition: border-color 0.3s;
+  background: #fafafa;
+  transition: border-color 0.15s;
 }
 
 .wish-input:focus {
-  border-color: #ff69b4;
+  border-color: #999;
   background: #fff;
 }
 
 .wish-input::placeholder { color: #bbb; }
 
 .wish-btn {
-  margin-top: 16px;
-  padding: 12px 36px;
-  font-size: 1rem;
+  margin-top: 14px;
+  width: 100%;
+  padding: 10px;
+  font-size: 0.95rem;
   font-weight: 600;
-  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  background: #333;
   color: #fff;
   border: none;
-  border-radius: 30px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: opacity 0.15s;
   font-family: inherit;
 }
 
-.wish-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
-}
-
-.wish-btn:active { transform: scale(0.98); }
+.wish-btn:hover { opacity: 0.85; }
+.wish-btn:active { opacity: 0.7; }
 
 .wish-confirm {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  font-size: 1.2rem;
-  color: #ff69b4;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #333;
   font-weight: 600;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
-.confirm-icon { font-size: 1.5rem; }
+.confirm-icon { font-size: 1.1rem; }
 
 /* ===== 音乐按钮 ===== */
 .music-btn {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 200;
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  color: #666;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .music-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
-  transform: scale(1.1);
+  border-color: #ccc;
+  color: #333;
 }
 
 /* ===== 响应式 ===== */
@@ -366,33 +363,33 @@ body {
 @media screen and (max-width: 600px) {
   .container { max-width: 100%; }
 
-  .one { font-size: 2.5rem; }
-  .two { font-size: 1rem; }
+  .one { font-size: 1.6rem; }
+  .two { font-size: 0.9rem; }
 
-  .three { font-size: 1.8rem; }
+  .three { font-size: 1.2rem; }
 
   .four .text-box { width: 90%; }
   .text-box .fake-btn { right: 5px; bottom: -38px; }
 
-  .five p { font-size: 1.3rem; }
-  .five .idea-5 { font-size: 2.2rem; }
+  .five p { font-size: 1rem; }
+  .five .idea-5 { font-size: 1.5rem; }
   .idea-5 span { display: block; }
-  .idea-6 span { font-size: 7rem; }
+  .idea-6 span { font-size: 4rem; }
 
-  .wish-hbd { font-size: 1.8em; }
-  .wish h5 { font-size: 1.2rem; }
+  .wish-hbd { font-size: 1.3em; }
+  .wish h5 { font-size: 1rem; }
 
-  .baloons img { width: 150px; }
+  .baloons img { width: 110px; }
   .baloons img:nth-child(6n + 5) { left: 56%; }
   .baloons img:nth-child(6n + 6) { left: 72%; }
 
-  .nine { padding-top: 15vh; }
+  .nine { padding-top: 18vh; }
 
-  .nine p { font-size: 1.1rem; }
-  .end-wish { font-size: 1.5rem !important; }
-  .end-final { font-size: 2.4rem !important; }
-  .last-smile { font-size: 0.85rem !important; }
-  #replay { font-size: 0.85rem !important; }
+  .nine p { font-size: 0.95rem; }
+  .end-wish { font-size: 1.1rem !important; }
+  .end-final { font-size: 1.4rem !important; }
+  .last-smile { font-size: 0.8rem !important; }
+  #replay { font-size: 0.8rem !important; }
 
   .wish-dialog { padding: 28px 24px; }
   .wish-title { font-size: 1.5rem; }
