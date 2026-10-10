@@ -206,8 +206,12 @@ body {
 }
 
 .last-smile {
-  font-size: 2.6rem !important;
-  margin-top: 4px !important;
+  font-size: 0.95rem !important;
+  color: #999 !important;
+  font-weight: 400 !important;
+  margin-top: 10px !important;
+  max-width: 80% !important;
+  line-height: 1.6 !important;
 }
 
 #replay {
@@ -387,7 +391,7 @@ body {
   .nine p { font-size: 1.1rem; }
   .end-wish { font-size: 1.5rem !important; }
   .end-final { font-size: 2.4rem !important; }
-  .last-smile { font-size: 2rem !important; }
+  .last-smile { font-size: 0.85rem !important; }
   #replay { font-size: 0.85rem !important; }
 
   .wish-dialog { padding: 28px 24px; }

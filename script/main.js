@@ -117,8 +117,7 @@
       .from(".end-3", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
       .from(".end-wish", { duration: 0.6, opacity: 0, scale: 0.5, ease: "back.out(2)", stagger: 0.5 }, "+=0.8")
       .from(".end-final", { duration: 1, opacity: 0, scale: 2, ease: "elastic.out(1, 0.5)" }, "+=0.6")
-      .from(".last-smile", { duration: 0.6, opacity: 0, scale: 0, ease: "back.out(2)" }, "+=0.2")
-      .to(".last-smile", { duration: 0.45, rotate: 12, yoyo: true, repeat: 1, ease: "sine.inOut" }, "+=0.3")
+      .from(".last-smile", { duration: 0.8, opacity: 0, y: 12, ease: "power2.out" }, "+=0.2")
       .from("#replay", { duration: 0.6, opacity: 0 }, "+=0.5");
 
     // ===== 开始播放 =====
