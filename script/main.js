@@ -155,18 +155,19 @@
     if (hint) hint.style.display = "none";
   }, 4000);
 
+  // 音乐按钮（校验门页面也可用）
+  const bgMusic = $("#bgMusic");
+  const musicBtn = $("#musicBtn");
+  const musicHint = $("#musicHint");
+  let isPlaying = false;
+  musicBtn.onclick = (e) => {
+    e.stopPropagation();
+    if (musicHint) musicHint.style.display = "none";
+    if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
+    else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
+  };
+
   function startApp() {
-    // ===== 音频 =====
-    const bgMusic = $("#bgMusic");
-    const musicBtn = $("#musicBtn");
-    const musicHint = $("#musicHint");
-    let isPlaying = false;
-    musicBtn.onclick = (e) => {
-      e.stopPropagation();
-      if (musicHint) musicHint.style.display = "none";
-      if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
-      else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
-    };
 
     // ===== 加载配置（失败时降级：直接用 HTML 默认文案启动） =====
     fetch("customize.json?v=20261004f")
