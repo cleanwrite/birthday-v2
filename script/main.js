@@ -107,6 +107,7 @@
         applyTransform(true);
         checkGate();
       }
+      e.stopPropagation();
     });
 
     return {
