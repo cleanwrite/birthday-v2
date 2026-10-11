@@ -14,48 +14,116 @@
   const gateError = $("#gateError");
   const birthdayGate = $("#birthdayGate");
 
-  // 填充月份 1-12
-  for (let i = 1; i <= 12; i++) {
-    const div = document.createElement("div");
-    div.className = "wheel-item";
-    div.textContent = i;
-    div.dataset.value = i;
-    monthWheel.appendChild(div);
-  }
+  const ITEM_H = 40;
+  const VISIBLE = 3;
 
-  // 填充日期 1-31
-  for (let i = 1; i <= 31; i++) {
-    const div = document.createElement("div");
-    div.className = "wheel-item";
-    div.textContent = i;
-    div.dataset.value = i;
-    dayWheel.appendChild(div);
-  }
-
-  const ITEM_HEIGHT = 40;
-
-  function getSelectedValue(wheel) {
-    const scrollTop = wheel.scrollTop;
-    const idx = Math.floor((scrollTop + 60) / ITEM_HEIGHT);
-    const items = wheel.querySelectorAll(".wheel-item");
-    if (idx >= 0 && idx < items.length) {
-      return parseInt(items[idx].dataset.value);
+  function buildWheel(wheel, count) {
+    // 用 transform 偏移实现滚轮，彻底解决原生滚动的死区和吸附问题
+    const inner = document.createElement("div");
+    inner.className = "wheel-inner";
+    for (let i = 1; i <= count; i++) {
+      const div = document.createElement("div");
+      div.className = "wheel-item";
+      div.textContent = i;
+      div.dataset.value = i;
+      inner.appendChild(div);
     }
-    return null;
+    wheel.innerHTML = "";
+    wheel.appendChild(inner);
+    return inner;
   }
 
-  function updateActiveItem(wheel) {
-    const scrollTop = wheel.scrollTop;
-    const idx = Math.round(scrollTop / ITEM_HEIGHT);
-    const items = wheel.querySelectorAll(".wheel-item");
-    items.forEach((item, i) => {
-      item.classList.toggle("active", i === idx);
+  const monthInner = buildWheel(monthWheel, 12);
+  const dayInner = buildWheel(dayWheel, 31);
+
+  function createWheelLogic(wheel, inner, count) {
+    let offset = 0; // 当前偏移（ITEM_H 的整数倍）
+    let current = 0; // 选中索引
+    let animFrame = null;
+
+    function clamp(idx) {
+      return Math.max(0, Math.min(count - 1, idx));
+    }
+
+    function applyTransform(animate) {
+      const targetOffset = -current * ITEM_H;
+      if (animate) {
+        wheel.classList.add("animating");
+      }
+      inner.style.transition = animate ? "transform 0.3s cubic-bezier(.25,.75,.35,1)" : "none";
+      inner.style.transform = `translateY(${targetOffset}px)`;
+      // 更新高亮
+      const items = inner.querySelectorAll(".wheel-item");
+      items.forEach((item, i) => {
+        const dist = Math.abs(i - current);
+        item.classList.toggle("active", i === current);
+        item.style.opacity = dist > VISIBLE ? 0 : 1 - dist * 0.3;
+        item.style.pointerEvents = dist > VISIBLE ? "none" : "auto";
+      });
+      offset = targetOffset;
+      if (animate) {
+        setTimeout(() => wheel.classList.remove("animating"), 300);
+      }
+    }
+
+    // wheel 事件
+    wheel.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      // 根据滚动方向增减索引
+      const delta = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
+      if (delta !== 0) {
+        current = clamp(current + delta);
+        applyTransform(true);
+        checkGate();
+      }
+    }, { passive: false });
+
+    // 触摸支持
+    let touchStartY = 0;
+    let touching = false;
+    wheel.addEventListener("touchstart", (e) => {
+      touchStartY = e.touches[0].clientY;
+      touching = true;
+    }, { passive: true });
+    wheel.addEventListener("touchmove", (e) => {
+      if (!touching) return;
+      e.preventDefault();
+      const dy = touchStartY - e.touches[0].clientY;
+      if (Math.abs(dy) > 15) {
+        current = clamp(current + (dy > 0 ? 1 : -1));
+        applyTransform(true);
+        checkGate();
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: false });
+    wheel.addEventListener("touchend", () => { touching = false; });
+
+    // 点击选择
+    inner.addEventListener("click", (e) => {
+      const item = e.target.closest(".wheel-item");
+      if (item) {
+        const idx = parseInt(item.dataset.value) - 1;
+        current = idx;
+        applyTransform(true);
+        checkGate();
+      }
     });
+
+    return {
+      getValue: () => current + 1,
+      init: () => {
+        current = 0;
+        applyTransform(false);
+      }
+    };
   }
+
+  const monthLogic = createWheelLogic(monthWheel, monthInner, 12);
+  const dayLogic = createWheelLogic(dayWheel, dayInner, 31);
 
   function checkGate() {
-    const month = getSelectedValue(monthWheel);
-    const day = getSelectedValue(dayWheel);
+    const month = monthLogic.getValue();
+    const day = dayLogic.getValue();
     if (month === TARGET_MONTH && day === TARGET_DAY) {
       gateBtn.disabled = false;
       gateError.textContent = "";
@@ -64,42 +132,19 @@
     }
   }
 
-  // 滚动监听
-  [monthWheel, dayWheel].forEach((wheel) => {
-    wheel.addEventListener("scroll", () => {
-      // 吸附到最近的项
-      requestAnimationFrame(() => {
-        const scrollTop = wheel.scrollTop;
-        const idx = Math.round(scrollTop / ITEM_HEIGHT);
-        const target = idx * ITEM_HEIGHT;
-        if (Math.abs(scrollTop - target) > 2) {
-          wheel.scrollTo({ top: target, behavior: "smooth" });
-        }
-        updateActiveItem(wheel);
-        checkGate();
-      });
-    });
-  });
-
-  // 初始化位置（默认选中 1月1日）
-  monthWheel.scrollTop = 0;
-  dayWheel.scrollTop = 0;
-  updateActiveItem(monthWheel);
-  updateActiveItem(dayWheel);
+  // 初始化
+  monthLogic.init();
+  dayLogic.init();
   checkGate();
 
   // 进入按钮
   gateBtn.addEventListener("click", () => {
-    const month = getSelectedValue(monthWheel);
-    const day = getSelectedValue(dayWheel);
-    if (month === TARGET_MONTH && day === TARGET_DAY) {
+    if (!gateBtn.disabled) {
       birthdayGate.classList.add("hidden");
       setTimeout(() => {
         birthdayGate.style.display = "none";
         startApp();
       }, 600);
-    } else {
-      gateError.textContent = "生日不对哦 🤔";
     }
   });
 
