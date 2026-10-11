@@ -122,14 +122,8 @@
   const dayLogic = createWheelLogic(dayWheel, dayInner, 31);
 
   function checkGate() {
-    const month = monthLogic.getValue();
-    const day = dayLogic.getValue();
-    if (month === TARGET_MONTH && day === TARGET_DAY) {
-      gateBtn.disabled = false;
-      gateError.textContent = "";
-    } else {
-      gateBtn.disabled = true;
-    }
+    // 不更新按钮状态，始终可点击
+    gateError.textContent = "";
   }
 
   // 初始化
@@ -139,12 +133,16 @@
 
   // 进入按钮
   gateBtn.addEventListener("click", () => {
-    if (!gateBtn.disabled) {
+    const month = monthLogic.getValue();
+    const day = dayLogic.getValue();
+    if (month === TARGET_MONTH && day === TARGET_DAY) {
       birthdayGate.classList.add("hidden");
       setTimeout(() => {
         birthdayGate.style.display = "none";
         startApp();
       }, 600);
+    } else {
+      gateError.textContent = "看样子在等的人不是你呢~";
     }
   });
 

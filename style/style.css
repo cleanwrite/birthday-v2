@@ -468,8 +468,8 @@ body {
   font-family: inherit;
 }
 
-.birthday-gate-btn:hover { opacity: 0.85; }
-.birthday-gate-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.birthday-gate-btn:hover { background: #555; }
+/* 按钮始终可点击，不做禁用样式 */
 
 .birthday-gate-error {
   font-size: 0.85rem;
