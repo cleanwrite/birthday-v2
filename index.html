@@ -122,6 +122,24 @@
   <audio id="bgMusic" loop><source src="music/birthday.mp3" type="audio/mpeg"></audio>
   <button id="musicBtn" class="music-btn" title="播放/暂停">🔇</button>
 
+  <!-- 生日校验门 -->
+  <div class="birthday-gate" id="birthdayGate">
+    <h2 class="birthday-gate-title">🎂 请输入生日</h2>
+    <p class="birthday-gate-hint">只有输入正确才能继续</p>
+    <div class="wheel-picker">
+      <div class="wheel-col" id="monthWheel">
+        <!-- JS 填充 -->
+      </div>
+      <span class="wheel-sep">月</span>
+      <div class="wheel-col" id="dayWheel">
+        <!-- JS 填充 -->
+      </div>
+      <span class="wheel-sep">日</span>
+    </div>
+    <p class="birthday-gate-error" id="gateError"></p>
+    <button class="birthday-gate-btn" id="gateBtn" disabled>进入</button>
+  </div>
+
   <script src="https://cleanwrite.github.io/birthday-v2/js/gsap.min.js"></script>
   <script src="https://cleanwrite.github.io/birthday-v2/script/main.js"></script>
 </body>

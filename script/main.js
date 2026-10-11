@@ -4,29 +4,130 @@
   // ===== Worker API（许愿存储） =====
   const API_BASE = "https://birthday-v2.ss20211111705.workers.dev";
 
-  // ===== 音频 =====
-  const bgMusic = $("#bgMusic");
-  const musicBtn = $("#musicBtn");
-  let isPlaying = false;
-  musicBtn.onclick = (e) => {
-    e.stopPropagation();
-    if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
-    else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
-  };
+  // ===== 生日校验门 =====
+  const TARGET_MONTH = 11;
+  const TARGET_DAY = 22;
 
-  // ===== 加载配置（失败时降级：直接用 HTML 默认文案启动） =====
-  fetch("customize.json?v=20261004f")
-    .then((r) => r.json())
-    .then((data) => {
-      Object.keys(data).forEach((key) => {
-        const el = document.querySelector(`[data-node-name*="${key}"]`);
-        if (el && data[key]) el.innerText = data[key];
+  const monthWheel = $("#monthWheel");
+  const dayWheel = $("#dayWheel");
+  const gateBtn = $("#gateBtn");
+  const gateError = $("#gateError");
+  const birthdayGate = $("#birthdayGate");
+
+  // 填充月份 1-12
+  for (let i = 1; i <= 12; i++) {
+    const div = document.createElement("div");
+    div.className = "wheel-item";
+    div.textContent = i;
+    div.dataset.value = i;
+    monthWheel.appendChild(div);
+  }
+
+  // 填充日期 1-31
+  for (let i = 1; i <= 31; i++) {
+    const div = document.createElement("div");
+    div.className = "wheel-item";
+    div.textContent = i;
+    div.dataset.value = i;
+    dayWheel.appendChild(div);
+  }
+
+  const ITEM_HEIGHT = 40;
+
+  function getSelectedValue(wheel) {
+    const scrollTop = wheel.scrollTop;
+    const idx = Math.floor((scrollTop + 60) / ITEM_HEIGHT);
+    const items = wheel.querySelectorAll(".wheel-item");
+    if (idx >= 0 && idx < items.length) {
+      return parseInt(items[idx].dataset.value);
+    }
+    return null;
+  }
+
+  function updateActiveItem(wheel) {
+    const scrollTop = wheel.scrollTop;
+    const idx = Math.round(scrollTop / ITEM_HEIGHT);
+    const items = wheel.querySelectorAll(".wheel-item");
+    items.forEach((item, i) => {
+      item.classList.toggle("active", i === idx);
+    });
+  }
+
+  function checkGate() {
+    const month = getSelectedValue(monthWheel);
+    const day = getSelectedValue(dayWheel);
+    if (month === TARGET_MONTH && day === TARGET_DAY) {
+      gateBtn.disabled = false;
+      gateError.textContent = "";
+    } else {
+      gateBtn.disabled = true;
+    }
+  }
+
+  // 滚动监听
+  [monthWheel, dayWheel].forEach((wheel) => {
+    wheel.addEventListener("scroll", () => {
+      // 吸附到最近的项
+      requestAnimationFrame(() => {
+        const scrollTop = wheel.scrollTop;
+        const idx = Math.round(scrollTop / ITEM_HEIGHT);
+        const target = idx * ITEM_HEIGHT;
+        if (Math.abs(scrollTop - target) > 2) {
+          wheel.scrollTo({ top: target, behavior: "smooth" });
+        }
+        updateActiveItem(wheel);
+        checkGate();
       });
-      init();
-    })
-    .catch(() => init());
+    });
+  });
+
+  // 初始化位置（默认选中 1月1日）
+  monthWheel.scrollTop = 0;
+  dayWheel.scrollTop = 0;
+  updateActiveItem(monthWheel);
+  updateActiveItem(dayWheel);
+  checkGate();
+
+  // 进入按钮
+  gateBtn.addEventListener("click", () => {
+    const month = getSelectedValue(monthWheel);
+    const day = getSelectedValue(dayWheel);
+    if (month === TARGET_MONTH && day === TARGET_DAY) {
+      birthdayGate.classList.add("hidden");
+      setTimeout(() => {
+        birthdayGate.style.display = "none";
+        startApp();
+      }, 600);
+    } else {
+      gateError.textContent = "生日不对哦 🤔";
+    }
+  });
 
   let tl;
+
+  function startApp() {
+    // ===== 音频 =====
+    const bgMusic = $("#bgMusic");
+    const musicBtn = $("#musicBtn");
+    let isPlaying = false;
+    musicBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
+      else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
+    };
+
+    // ===== 加载配置（失败时降级：直接用 HTML 默认文案启动） =====
+    fetch("customize.json?v=20261004f")
+      .then((r) => r.json())
+      .then((data) => {
+        Object.keys(data).forEach((key) => {
+          const el = document.querySelector(`[data-node-name*="${key}"]`);
+          if (el && data[key]) el.innerText = data[key];
+        });
+        init();
+      })
+      .catch(() => init());
+  }
 
   function init() {
     // 拆字符（逐字动画用）
