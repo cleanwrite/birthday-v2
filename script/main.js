@@ -137,11 +137,13 @@
     const month = monthLogic.getValue();
     const day = dayLogic.getValue();
     if (month === TARGET_MONTH && day === TARGET_DAY) {
+      // 校验门淡出，但保留音乐提示
       birthdayGate.classList.add("hidden");
       setTimeout(() => {
         birthdayGate.style.display = "none";
         startApp();
-      }, 600);
+        showMusicHint();
+      }, 300);
     } else {
       gateError.textContent = "看样子在等的人不是你呢~";
     }
@@ -149,11 +151,20 @@
 
   let tl;
 
-  // 音乐提示自动消失
-  setTimeout(() => {
+  // 校验门关闭后显示音乐提示
+  const showMusicHint = () => {
     const hint = document.getElementById("musicHint");
-    if (hint) hint.style.display = "none";
-  }, 4000);
+    if (hint) {
+      hint.textContent = "🎵 点击右上角开启音乐";
+      hint.style.display = "block";
+      hint.style.opacity = "1";
+      setTimeout(() => {
+        hint.style.transition = "opacity 1s";
+        hint.style.opacity = "0";
+        setTimeout(() => { hint.style.display = "none"; }, 1000);
+      }, 3000);
+    }
+  };
 
   // 音乐按钮（校验门页面也可用）
   const bgMusic = $("#bgMusic");
