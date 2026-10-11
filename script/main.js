@@ -37,9 +37,9 @@
   const dayInner = buildWheel(dayWheel, 31);
 
   function createWheelLogic(wheel, inner, count) {
-    let offset = 0; // 当前偏移（ITEM_H 的整数倍）
-    let current = 0; // 选中索引
-    let animFrame = null;
+    let current = 0;
+    let lastFire = 0;
+    const items = inner.querySelectorAll(".wheel-item");
 
     function clamp(idx) {
       return Math.max(0, Math.min(count - 1, idx));
@@ -47,46 +47,31 @@
 
     function applyTransform(animate) {
       const targetOffset = -current * ITEM_H;
-      if (animate) {
-        wheel.classList.add("animating");
-      }
       inner.style.transition = animate ? "transform 0.3s cubic-bezier(.25,.75,.35,1)" : "none";
       inner.style.transform = `translateY(${targetOffset}px)`;
-      // 更新高亮
-      const items = inner.querySelectorAll(".wheel-item");
-      items.forEach((item, i) => {
+      for (let i = 0; i < items.length; i++) {
         const dist = Math.abs(i - current);
-        item.classList.toggle("active", i === current);
-        item.style.opacity = dist > VISIBLE ? 0 : 1 - dist * 0.3;
-        item.style.pointerEvents = dist > VISIBLE ? "none" : "auto";
-      });
-      offset = targetOffset;
-      if (animate) {
-        setTimeout(() => wheel.classList.remove("animating"), 300);
+        items[i].classList.toggle("active", i === current);
+        items[i].style.opacity = dist > VISIBLE ? 0 : 1 - dist * 0.3;
       }
     }
 
-    // wheel 事件
     wheel.addEventListener("wheel", (e) => {
       e.preventDefault();
-      // 根据滚动方向增减索引
-      const delta = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
-      if (delta !== 0) {
-        current = clamp(current + delta);
-        applyTransform(true);
-        checkGate();
-      }
+      const now = Date.now();
+      if (now - lastFire < 80) return;
+      lastFire = now;
+      const delta = e.deltaY > 0 ? 1 : -1;
+      current = clamp(current + delta);
+      applyTransform(true);
+      checkGate();
     }, { passive: false });
 
-    // 触摸支持
     let touchStartY = 0;
-    let touching = false;
     wheel.addEventListener("touchstart", (e) => {
       touchStartY = e.touches[0].clientY;
-      touching = true;
     }, { passive: true });
     wheel.addEventListener("touchmove", (e) => {
-      if (!touching) return;
       e.preventDefault();
       const dy = touchStartY - e.touches[0].clientY;
       if (Math.abs(dy) > 15) {
@@ -96,14 +81,11 @@
         touchStartY = e.touches[0].clientY;
       }
     }, { passive: false });
-    wheel.addEventListener("touchend", () => { touching = false; });
 
-    // 点击选择
     inner.addEventListener("click", (e) => {
       const item = e.target.closest(".wheel-item");
       if (item) {
-        const idx = parseInt(item.dataset.value) - 1;
-        current = idx;
+        current = parseInt(item.dataset.value) - 1;
         applyTransform(true);
         checkGate();
       }
@@ -151,21 +133,6 @@
 
   let tl;
 
-  // 校验门关闭后显示音乐提示
-  const showMusicHint = () => {
-    const hint = document.getElementById("musicHint");
-    if (hint) {
-      hint.textContent = "🎵 点击右上角开启音乐";
-      hint.style.display = "block";
-      hint.style.opacity = "1";
-      setTimeout(() => {
-        hint.style.transition = "opacity 1s";
-        hint.style.opacity = "0";
-        setTimeout(() => { hint.style.display = "none"; }, 1000);
-      }, 3000);
-    }
-  };
-
   // 音乐按钮（校验门页面也可用）
   const bgMusic = $("#bgMusic");
   const musicBtn = $("#musicBtn");
@@ -176,6 +143,20 @@
     if (musicHint) musicHint.style.display = "none";
     if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
     else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
+  };
+
+  // 校验门关闭后显示音乐提示
+  const showMusicHint = () => {
+    if (musicHint) {
+      musicHint.textContent = "🎵 点击右上角开启音乐";
+      musicHint.style.display = "block";
+      musicHint.style.opacity = "1";
+      setTimeout(() => {
+        musicHint.style.transition = "opacity 1s";
+        musicHint.style.opacity = "0";
+        setTimeout(() => { musicHint.style.display = "none"; }, 1000);
+      }, 3000);
+    }
   };
 
   function startApp() {
@@ -189,8 +170,9 @@
           if (el && data[key]) el.innerText = data[key];
         });
         init();
+        showMusicHint();
       })
-      .catch(() => init());
+      .catch(() => { init(); showMusicHint(); });
   }
 
   function init() {
@@ -203,6 +185,29 @@
     splitChars(chat);
     splitChars(hbd);
 
+    // 预缓存 DOM 查询
+    const $one = $(".one");
+    const $two = $(".two");
+    const $three = $(".three");
+    const $four = $(".four");
+    const $fakeBtn = $(".fake-btn");
+    const $chatSpan = $(".hbd-chatbox span");
+    const $idea1 = $(".idea-1");
+    const $idea2 = $(".idea-2");
+    const $idea3 = $(".idea-3");
+    const $idea3Strong = $(".idea-3 strong");
+    const $idea4 = $(".idea-4");
+    const $idea5 = $(".idea-5");
+    const $smiley = $(".smiley");
+    const $idea6Span = $(".idea-6 span");
+    const $baloons = $(".baloons img");
+    const $six = $(".six");
+    const $wish = $(".wish");
+    const $wishSpan = $(".wish-hbd span");
+    const $wishH5 = $(".wish h5");
+    const $eightSvg = $(".eight svg");
+    const $nine = $(".nine");
+
     // ===== 动画时间轴（GSAP 3） =====
     const ideaIn = { opacity: 0, y: -20, rotateX: 5, skewX: "15deg" };
     const ideaOut = { opacity: 0, y: 20, rotateY: 5, skewX: "-15deg" };
@@ -212,56 +217,54 @@
     tl
       // 1. 开场问候
       .to(".container", { duration: 0.1, visibility: "visible" })
-      .from(".one", { duration: 0.7, opacity: 0, y: 10 })
-      .from(".two", { duration: 0.4, opacity: 0, y: 10 })
-      .to(".one", { duration: 0.7, opacity: 0, y: 10 }, "+=2.5")
-      .to(".two", { duration: 0.7, opacity: 0, y: 10 }, "-=1")
+      .from($one, { duration: 0.7, opacity: 0, y: 10 })
+      .from($two, { duration: 0.4, opacity: 0, y: 10 })
+      .to($one, { duration: 0.7, opacity: 0, y: 10 }, "+=2.5")
+      .to($two, { duration: 0.7, opacity: 0, y: 10 }, "-=1")
 
       // 2. 生日宣言
-      .from(".three", { duration: 0.7, opacity: 0, y: 10 })
-      .to(".three", { duration: 0.7, opacity: 0, y: 10 }, "+=2")
+      .from($three, { duration: 0.7, opacity: 0, y: 10 })
+      .to($three, { duration: 0.7, opacity: 0, y: 10 }, "+=2")
 
       // 3. 对话气泡
-      .from(".four", { duration: 0.7, scale: 0.2, opacity: 0, ease: "back.out" })
-      .from(".fake-btn", { duration: 0.3, scale: 0.2, opacity: 0 })
-      .to(".hbd-chatbox span", { duration: 0.05, visibility: "visible", stagger: 0.045 })
-      .to(".fake-btn", { duration: 0.1, backgroundColor: "rgb(127, 206, 248)" })
-      .to(".four", { duration: 0.5, scale: 0.2, opacity: 0, y: -150 }, "+=0.7")
+      .from($four, { duration: 0.7, scale: 0.2, opacity: 0, ease: "back.out" })
+      .from($fakeBtn, { duration: 0.3, scale: 0.2, opacity: 0 })
+      .to($chatSpan, { duration: 0.05, visibility: "visible", stagger: 0.045 })
+      .to($fakeBtn, { duration: 0.1, backgroundColor: "rgb(127, 206, 248)" })
+      .to($four, { duration: 0.5, scale: 0.2, opacity: 0, y: -150 }, "+=0.7")
 
       // 4. 思考序列
-      .from(".idea-1", { duration: 0.7, ...ideaIn })
-      .to(".idea-1", { duration: 0.7, ...ideaOut }, "+=1.5")
-      .from(".idea-2", { duration: 0.7, ...ideaIn })
-      .to(".idea-2", { duration: 0.7, ...ideaOut }, "+=1.5")
-      .from(".idea-3", { duration: 0.7, ...ideaIn })
-      .to(".idea-3 strong", { duration: 0.5, scale: 1.08, backgroundColor: "rgb(21, 161, 237)", color: "#fff", ease: "power2.out" })
-      .to(".idea-3", { duration: 0.7, ...ideaOut }, "+=1.5")
-      .from(".idea-4", { duration: 0.7, ...ideaIn })
-      .to(".idea-4", { duration: 0.7, ...ideaOut }, "+=1.5")
-      .from(".idea-5", { duration: 0.7, rotateX: 15, rotateZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=0.5")
-      .to(".idea-5 .smiley", { duration: 0.6, rotate: 15, scale: 1.15, ease: "back.out(2)" }, "+=0.4")
-      .to(".idea-5", { duration: 0.7, scale: 0.2, opacity: 0 }, "+=2")
+      .from($idea1, { duration: 0.7, ...ideaIn })
+      .to($idea1, { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from($idea2, { duration: 0.7, ...ideaIn })
+      .to($idea2, { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from($idea3, { duration: 0.7, ...ideaIn })
+      .to($idea3Strong, { duration: 0.5, scale: 1.08, backgroundColor: "rgb(21, 161, 237)", color: "#fff", ease: "power2.out" })
+      .to($idea3, { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from($idea4, { duration: 0.7, ...ideaIn })
+      .to($idea4, { duration: 0.7, ...ideaOut }, "+=1.5")
+      .from($idea5, { duration: 0.7, rotateX: 15, rotateZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=0.5")
+      .to($smiley, { duration: 0.6, rotate: 15, scale: 1.15, ease: "back.out(2)" }, "+=0.4")
+      .to($idea5, { duration: 0.7, scale: 0.2, opacity: 0 }, "+=2")
 
-      // 5. 生日大字（入场轻微交错，退场全同步防错位）
-      .from(".idea-6 span", { duration: 0.8, scale: 2.5, opacity: 0, rotate: 12, ease: "expo.out", stagger: 0.15 })
-      .to(".idea-6 span", { duration: 0.7, scale: 2.5, opacity: 0, ease: "power2.in", stagger: 0 }, "+=1.2")
+      // 5. 生日大字
+      .from($idea6Span, { duration: 0.8, scale: 2.5, opacity: 0, rotate: 12, ease: "expo.out", stagger: 0.15 })
+      .to($idea6Span, { duration: 0.7, scale: 2.5, opacity: 0, ease: "power2.in", stagger: 0 }, "+=1.2")
 
-      // 6. 气球升空（减速：4.5s 缓慢飘升）
-      .fromTo(".baloons img",
-        { opacity: 0, y: 1400 },
-        { opacity: 0.95, y: -1100, duration: 4.5, stagger: 0.18, ease: "none" })
+      // 6. 气球升空
+      .fromTo($baloons, { opacity: 0, y: 1400 }, { opacity: 0.95, y: -1100, duration: 4.5, stagger: 0.18, ease: "none" })
 
       // 7. 生日祝福
-      .set(".six", { opacity: 1, y: 0 })
-      .from(".wish", { duration: 0.5, scale: 2.5, opacity: 0, rotateZ: -15 }, "-=2")
-      .from(".wish-hbd span", { duration: 0.7, opacity: 0, y: -50, rotate: 150, skewX: "30deg", ease: "elastic.out(1, 0.5)", stagger: 0.1 })
+      .set($six, { opacity: 1, y: 0 })
+      .from($wish, { duration: 0.5, scale: 2.5, opacity: 0, rotateZ: -15 }, "-=2")
+      .from($wishSpan, { duration: 0.7, opacity: 0, y: -50, rotate: 150, skewX: "30deg", ease: "elastic.out(1, 0.5)", stagger: 0.1 })
       .addLabel("party")
-      .to(".wish-hbd span", { duration: 0.7, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.08 }, "party")
-      .from(".wish h5", { duration: 0.5, opacity: 0, y: 10, skewX: "-15deg" }, "party+=0.3")
+      .to($wishSpan, { duration: 0.7, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.08 }, "party")
+      .from($wishH5, { duration: 0.5, opacity: 0, y: 10, skewX: "-15deg" }, "party+=0.3")
 
-      // 8. 粒子爆炸（先 set 激活再扩散，避免 load 时提前可见）
-      .set(".eight svg", { visibility: "visible", opacity: 0.25 })
-      .to(".eight svg", { opacity: 0, scale: 26, duration: 1.1, stagger: 0.24, ease: "power1.in" })
+      // 8. 粒子爆炸
+      .set($eightSvg, { visibility: "visible", opacity: 0.25 })
+      .to($eightSvg, { opacity: 0, scale: 26, duration: 1.1, stagger: 0.24, ease: "power1.in" })
 
       // 9. 许愿弹窗（暂停等待提交）
       .add(() => {
@@ -276,7 +279,7 @@
       .to(".wish-overlay", { duration: 0.4, opacity: 0, ease: "power2.in", pointerEvents: "none" })
       .set(".wish-overlay", { display: "none" })
       .to(".six", { duration: 0.5, opacity: 0, y: 30 })
-      .set(".nine", { display: "flex" })
+      .set($nine, { display: "flex" })
       .from(".end-1", { duration: 0.8, opacity: 0, y: 25 })
       .from(".end-2", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
       .from(".end-3", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
