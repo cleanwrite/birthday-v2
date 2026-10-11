@@ -149,13 +149,21 @@
 
   let tl;
 
+  // 音乐提示自动消失
+  setTimeout(() => {
+    const hint = document.getElementById("musicHint");
+    if (hint) hint.style.display = "none";
+  }, 4000);
+
   function startApp() {
     // ===== 音频 =====
     const bgMusic = $("#bgMusic");
     const musicBtn = $("#musicBtn");
+    const musicHint = $("#musicHint");
     let isPlaying = false;
     musicBtn.onclick = (e) => {
       e.stopPropagation();
+      if (musicHint) musicHint.style.display = "none";
       if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
       else { bgMusic.play().then(() => { musicBtn.textContent = "🔊"; isPlaying = true; }).catch(() => {}); }
     };

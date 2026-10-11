@@ -354,6 +354,23 @@ body {
   color: #333;
 }
 
+.birthday-gate-music-hint {
+  position: fixed;
+  top: 16px;
+  right: 56px;
+  font-size: 0.8rem;
+  color: #999;
+  z-index: 10001;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  15% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 /* ===== 生日校验门 ===== */
 .birthday-gate {
   position: fixed;
