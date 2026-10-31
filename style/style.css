@@ -31,22 +31,8 @@ body {
   overflow: hidden;
 }
 
-/* ===== 动画场景（绝对定位居中，默认不可见） ===== */
-.container > .scene {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* 思考序列容器 — 不可见但子元素独立动画 ===== */
-.scene-thinking {
+/* ===== 动画场景 ===== */
+.scene {
   position: absolute;
   inset: 0;
   display: flex;
@@ -64,17 +50,8 @@ body {
   color: #333;
   margin: 0;
 }
-
-.one h1 span {
-  display: inline-block;
-}
-
-.two {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #888;
-  margin: 0;
-}
+.one h1 span { display: inline-block; }
+.two { font-size: 1rem; font-weight: 400; color: #888; margin: 0; }
 
 /* ===== 2. 生日宣言 ===== */
 .three { font-size: 1.6rem; color: #333; }
@@ -91,10 +68,8 @@ body {
   position: relative;
   background: #fff;
 }
-
 .text-box p { margin: 0; text-align: left; }
-.text-box span { visibility: hidden; }
-
+.text-box span { visibility: hidden; display: inline-block; }
 .text-box .fake-btn {
   position: absolute;
   right: 5px;
@@ -107,36 +82,36 @@ body {
 }
 
 /* ===== 4. 思考序列 ===== */
+.scene-thinking {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
 .five p {
   font-size: 1.2rem;
   color: #444;
   margin: 0;
-  opacity: 0;
 }
-
 .idea-3 strong {
   padding: 2px 6px;
   border-radius: 4px;
   display: inline-block;
   color: #333;
   font-weight: 600;
-  opacity: 0;
 }
-
 .five .idea-5 { font-size: 2rem; }
-
-.idea-5 span,
-.idea-6 span,
-.wish-hbd span {
+.idea-5 span, .idea-6 span, .wish-hbd span {
   display: inline-block;
-  opacity: 0;
 }
-
 .idea-6 span {
   font-size: 6rem;
   color: #333;
   font-weight: 600;
-  opacity: 0;
 }
 
 /* ===== 5. 生日祝福 ===== */
@@ -146,7 +121,6 @@ body {
   font-weight: 600;
   color: #333;
 }
-
 .wish h5 {
   font-weight: 400;
   font-size: 1.1rem;
@@ -161,42 +135,33 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-
 .baloons {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
-
 .baloons img {
   position: absolute;
   width: 160px;
-  opacity: 0;
 }
-
-/* 6列布局，均匀分布 */
 .baloons img:nth-child(6n + 1) { left: 5%; }
 .baloons img:nth-child(6n + 2) { left: 21%; }
 .baloons img:nth-child(6n + 3) { left: 37%; }
 .baloons img:nth-child(6n + 4) { left: 53%; }
 .baloons img:nth-child(6n + 5) { left: 69%; }
 .baloons img:nth-child(6n + 6) { left: 85%; }
-
-/* 行：每6个一行，共3行 */
 .baloons img:nth-child(1),
 .baloons img:nth-child(2),
 .baloons img:nth-child(3),
 .baloons img:nth-child(4),
 .baloons img:nth-child(5),
 .baloons img:nth-child(6) { top: 60%; }
-
 .baloons img:nth-child(7),
 .baloons img:nth-child(8),
 .baloons img:nth-child(9),
 .baloons img:nth-child(10),
 .baloons img:nth-child(11),
 .baloons img:nth-child(12) { top: 72%; }
-
 .baloons img:nth-child(13),
 .baloons img:nth-child(14),
 .baloons img:nth-child(15),
@@ -211,14 +176,12 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-
 .eight svg {
   width: 25px;
   position: absolute;
   visibility: hidden;
   z-index: 1;
 }
-
 .eight svg:nth-child(1) { top: 7%; left: 5%; fill: #bd6ecf; }
 .eight svg:nth-child(2) { top: 23%; left: 35%; fill: #7dd175; }
 .eight svg:nth-child(3) { top: 33%; left: 23%; fill: #349d8b; }
@@ -230,43 +193,22 @@ body {
 .eight svg:nth-child(9) { top: 94%; left: 87%; fill: #9a90da; }
 
 /* ===== 8. 结尾 ===== */
+.scene.nine { pointer-events: auto; }
 .nine p {
   font-size: 1.1rem;
   font-weight: 400;
   color: #555;
   margin: 0;
-  opacity: 0;
 }
-
 .end-wishes {
   margin: 16px 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
-.end-wish {
-  font-size: 1.3rem !important;
-  color: #333 !important;
-  font-weight: 500 !important;
-}
-
-.end-final {
-  font-size: 1.8rem !important;
-  color: #333 !important;
-  font-weight: 600 !important;
-  margin-top: 12px !important;
-}
-
-.last-smile {
-  font-size: 0.85rem !important;
-  color: #888 !important;
-  font-weight: 400 !important;
-  margin-top: 12px !important;
-  max-width: 80% !important;
-  line-height: 1.6 !important;
-}
-
+.end-wish { font-size: 1.3rem !important; color: #333 !important; font-weight: 500 !important; }
+.end-final { font-size: 1.8rem !important; color: #333 !important; font-weight: 600 !important; margin-top: 12px !important; }
+.last-smile { font-size: 0.85rem !important; color: #888 !important; font-weight: 400 !important; margin-top: 12px !important; max-width: 80% !important; line-height: 1.6 !important; }
 #replay {
   cursor: pointer;
   pointer-events: auto;
@@ -274,11 +216,6 @@ body {
   font-size: 0.85rem;
   color: #888;
   text-decoration: underline;
-  opacity: 0;
-}
-
-.scene.nine {
-  pointer-events: auto;
 }
 
 /* ===== 许愿弹窗 ===== */
@@ -294,12 +231,6 @@ body {
   pointer-events: none;
   transition: opacity 0.2s ease;
 }
-
-.wish-overlay.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .wish-dialog {
   background: #fff;
   border: 1px solid #e0e0e0;
@@ -309,7 +240,6 @@ body {
   max-width: 380px;
   width: 90%;
 }
-
 .wish-dialog-header {
   display: flex;
   align-items: center;
@@ -317,21 +247,9 @@ body {
   gap: 8px;
   margin-bottom: 12px;
 }
-
 .wish-icon { font-size: 1.3rem; }
-
-.wish-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.wish-hint {
-  font-size: 0.85rem;
-  color: #888;
-  margin-bottom: 16px;
-}
-
+.wish-title { font-size: 1.1rem; font-weight: 600; color: #333; }
+.wish-hint { font-size: 0.85rem; color: #888; margin-bottom: 16px; }
 .wish-input {
   width: 100%;
   padding: 10px 14px;
@@ -341,16 +259,9 @@ body {
   font-family: inherit;
   outline: none;
   background: #fafafa;
-  transition: border-color 0.15s;
 }
-
-.wish-input:focus {
-  border-color: #999;
-  background: #fff;
-}
-
+.wish-input:focus { border-color: #999; background: #fff; }
 .wish-input::placeholder { color: #bbb; }
-
 .wish-btn {
   margin-top: 14px;
   width: 100%;
@@ -363,12 +274,8 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-family: inherit;
-  transition: opacity 0.15s;
 }
-
 .wish-btn:hover { opacity: 0.85; }
-.wish-btn:active { opacity: 0.7; }
-
 .wish-confirm {
   display: flex;
   align-items: center;
@@ -379,7 +286,6 @@ body {
   font-weight: 600;
   margin-top: 16px;
 }
-
 .confirm-icon { font-size: 1.1rem; }
 
 /* ===== 音乐按钮 ===== */
@@ -396,16 +302,11 @@ body {
   color: #666;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.music-btn:hover {
-  border-color: #ccc;
-  color: #333;
-}
+.music-btn:hover { border-color: #ccc; color: #333; }
 
 .birthday-gate-music-hint {
   position: fixed;
@@ -430,31 +331,10 @@ body {
   gap: 20px;
   transition: opacity 0.4s ease;
 }
-
-.birthday-gate.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.birthday-gate-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.birthday-gate-hint {
-  font-size: 0.85rem;
-  color: #999;
-  margin: 0;
-}
-
-.wheel-picker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.birthday-gate.hidden { opacity: 0; pointer-events: none; }
+.birthday-gate-title { font-size: 1.4rem; font-weight: 600; color: #333; margin: 0; }
+.birthday-gate-hint { font-size: 0.85rem; color: #999; margin: 0; }
+.wheel-picker { display: flex; align-items: center; gap: 10px; }
 .wheel-col {
   width: 60px;
   height: 160px;
@@ -466,35 +346,12 @@ body {
   user-select: none;
   touch-action: none;
 }
-
-.wheel-col::before,
-.wheel-col::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 50px;
-  z-index: 2;
-  pointer-events: none;
+.wheel-col::before, .wheel-col::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 50px; z-index: 2; pointer-events: none;
 }
-
-.wheel-col::before {
-  top: 0;
-  background: linear-gradient(to bottom, #fff 60%, transparent);
-}
-
-.wheel-col::after {
-  bottom: 0;
-  background: linear-gradient(to top, #fff 60%, transparent);
-}
-
-.wheel-inner {
-  position: absolute;
-  top: 60px;
-  left: 0;
-  right: 0;
-}
-
+.wheel-col::before { top: 0; background: linear-gradient(to bottom, #fff 60%, transparent); }
+.wheel-col::after { bottom: 0; background: linear-gradient(to top, #fff 60%, transparent); }
+.wheel-inner { position: absolute; top: 60px; left: 0; right: 0; }
 .wheel-item {
   height: 40px;
   display: flex;
@@ -502,20 +359,9 @@ body {
   justify-content: center;
   font-size: 1rem;
   color: #ccc;
-  transition: color 0.15s, opacity 0.15s;
 }
-
-.wheel-item.active {
-  color: #333;
-  font-weight: 600;
-}
-
-.wheel-sep {
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: 600;
-}
-
+.wheel-item.active { color: #333; font-weight: 600; }
+.wheel-sep { font-size: 1.1rem; color: #333; font-weight: 600; }
 .birthday-gate-btn {
   padding: 10px 32px;
   font-size: 0.95rem;
@@ -526,17 +372,9 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.15s;
 }
-
 .birthday-gate-btn:hover { background: #555; }
-
-.birthday-gate-error {
-  font-size: 0.85rem;
-  color: #e74c3c;
-  height: 20px;
-  margin: 0;
-}
+.birthday-gate-error { font-size: 0.85rem; color: #e74c3c; height: 20px; margin: 0; }
 
 /* ===== 响应式 ===== */
 @media (max-width: 600px) {
@@ -550,8 +388,6 @@ body {
   .idea-6 span { font-size: 4rem; }
   .wish-hbd { font-size: 1.3rem; }
   .wish h5 { font-size: 1rem; }
-
-  /* 移动端气球：缩小，保持6列布局 */
   .baloons img { width: 100px; }
   .baloons img:nth-child(6n + 1) { left: 0%; }
   .baloons img:nth-child(6n + 2) { left: 17%; }
@@ -559,34 +395,10 @@ body {
   .baloons img:nth-child(6n + 4) { left: 51%; }
   .baloons img:nth-child(6n + 5) { left: 68%; }
   .baloons img:nth-child(6n + 6) { left: 85%; }
-
-  .baloons img:nth-child(1),
-  .baloons img:nth-child(2),
-  .baloons img:nth-child(3),
-  .baloons img:nth-child(4),
-  .baloons img:nth-child(5),
-  .baloons img:nth-child(6) { top: 55%; }
-
-  .baloons img:nth-child(7),
-  .baloons img:nth-child(8),
-  .baloons img:nth-child(9),
-  .baloons img:nth-child(10),
-  .baloons img:nth-child(11),
-  .baloons img:nth-child(12) { top: 67%; }
-
-  .baloons img:nth-child(13),
-  .baloons img:nth-child(14),
-  .baloons img:nth-child(15),
-  .baloons img:nth-child(16),
-  .baloons img:nth-child(17),
-  .baloons img:nth-child(18) { top: 79%; }
-
   .nine p { font-size: 0.95rem; }
   .end-wish { font-size: 1.1rem !important; }
   .end-final { font-size: 1.4rem !important; }
   .last-smile { font-size: 0.8rem !important; }
   #replay { font-size: 0.8rem !important; }
-
   .wish-dialog { padding: 24px 20px; }
-  .wish-title { font-size: 1.1rem; }
 }
