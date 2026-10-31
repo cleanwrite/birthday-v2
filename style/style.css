@@ -39,6 +39,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   pointer-events: none;
+  z-index: 0;
 }
 
 .container > div {
@@ -145,6 +146,11 @@ body {
   justify-content: center;
   gap: 8px;
   padding: 0 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
 }
 
 .baloons img {
@@ -153,6 +159,7 @@ body {
   opacity: 0;
   flex: 0 0 calc(33.33% - 8px);
   max-width: 120px;
+  will-change: transform, opacity;
 }
 
 /* ===== 7. 粒子圆圈 ===== */

@@ -113,8 +113,7 @@
   const dayLogic = createWheelLogic(dayWheel, dayInner, 31);
 
   function checkGate() {
-    // 不更新按钮状态，始终可点击
-    gateError.textContent = "";
+    // 按钮始终可点击，无需更新状态
   }
 
   // 初始化
@@ -260,7 +259,7 @@
       .to($idea6Span, { duration: 0.7, scale: 2.5, opacity: 0, ease: "power2.in", stagger: 0 }, "+=1.2")
 
       // 6. 气球升空
-      .to($baloons, { opacity: 0.95, y: -1200, duration: 4, stagger: 0.15, ease: "power1.out" })
+      .fromTo($baloons, { opacity: 0, y: 800 }, { opacity: 0.95, y: -1000, duration: 4, stagger: 0.15, ease: "power1.out" })
 
       // 7. 生日祝福
       .set($six, { opacity: 1, y: 0 })
@@ -286,7 +285,7 @@
       // ===== 许愿后的完整结尾 =====
       .to(".wish-overlay", { duration: 0.4, opacity: 0, ease: "power2.in", pointerEvents: "none" })
       .set(".wish-overlay", { display: "none" })
-      .to(".six", { duration: 0.5, opacity: 0, y: 30 })
+      .to($six, { duration: 0.5, opacity: 0, y: 30 })
       .set($nine, { display: "flex" })
       .from(".end-1", { duration: 0.8, opacity: 0, y: 25 })
       .from(".end-2", { duration: 0.8, opacity: 0, y: 25 }, "+=0.6")
