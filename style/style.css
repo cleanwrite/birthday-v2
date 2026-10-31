@@ -2,8 +2,11 @@
   --vh: 1vh;
 }
 
-html {
+*, *::before, *::after {
   box-sizing: border-box;
+}
+
+html {
   -webkit-text-size-adjust: 100%;
 }
 
@@ -12,53 +15,51 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
+  background: #fff;
 }
 
+/* ===== 主容器 ===== */
 .container {
-  height: calc(var(--vh, 1vh) * 100);
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   visibility: hidden;
-  position: relative;
   overflow: hidden;
 }
 
-.container div.six {
-  top: calc(var(--vh, 1vh) * 9);
-  z-index: 1;
-}
-
-.container div.seven,
-.container div.eight {
-  width: 100vw;
-  height: calc(var(--vh, 1vh) * 100);
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.container > div {
+/* ===== 动画场景（绝对定位居中） ===== */
+.container > .scene {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 12vh; /* 所有场景文字整体上移 */
-  pointer-events: none;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
 }
 
 /* ===== 1. 开场问候 ===== */
-.one { font-size: 2.2rem; color: #333; }
-.one h1 { font-weight: 600; margin: 0; }
-.one h1 span { display: inline-block; }
+.one h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.one h1 span {
+  display: inline-block;
+}
 
 .two {
   font-size: 1rem;
   font-weight: 400;
   color: #888;
+  margin: 0;
 }
 
 /* ===== 2. 生日宣言 ===== */
@@ -68,6 +69,7 @@ body {
 /* ===== 3. 对话气泡 ===== */
 .four .text-box {
   width: 600px;
+  max-width: 90%;
   margin: 0 auto;
   border: 3px solid #aaa;
   border-radius: 5px;
@@ -93,9 +95,6 @@ body {
 /* ===== 4. 思考序列 ===== */
 .five p {
   font-size: 1.2rem;
-  position: absolute;
-  left: 0;
-  right: 0;
   color: #444;
   margin: 0;
 }
@@ -123,8 +122,6 @@ body {
 }
 
 /* ===== 5. 生日祝福 ===== */
-.six { position: relative; }
-
 .wish-hbd {
   font-size: 1.6rem;
   margin: 0;
@@ -141,62 +138,67 @@ body {
 
 /* ===== 6. 气球 ===== */
 .baloons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: fixed;
+  inset: 0;
   pointer-events: none;
+  z-index: 0;
 }
 
 .baloons img {
-  width: 140px;
-  height: auto;
+  position: absolute;
+  width: 160px;
   opacity: 0;
-  flex: 0 0 calc(33.33% - 8px);
-  max-width: 120px;
-  will-change: transform, opacity;
 }
+
+/* 6列布局，均匀分布 */
+.baloons img:nth-child(6n + 1) { left: 5%; }
+.baloons img:nth-child(6n + 2) { left: 21%; }
+.baloons img:nth-child(6n + 3) { left: 37%; }
+.baloons img:nth-child(6n + 4) { left: 53%; }
+.baloons img:nth-child(6n + 5) { left: 69%; }
+.baloons img:nth-child(6n + 6) { left: 85%; }
+
+/* 行：每6个一行，共3行 */
+.baloons img:nth-child(1),
+.baloons img:nth-child(2),
+.baloons img:nth-child(3),
+.baloons img:nth-child(4),
+.baloons img:nth-child(5),
+.baloons img:nth-child(6) { top: 60%; }
+
+.baloons img:nth-child(7),
+.baloons img:nth-child(8),
+.baloons img:nth-child(9),
+.baloons img:nth-child(10),
+.baloons img:nth-child(11),
+.baloons img:nth-child(12) { top: 72%; }
+
+.baloons img:nth-child(13),
+.baloons img:nth-child(14),
+.baloons img:nth-child(15),
+.baloons img:nth-child(16),
+.baloons img:nth-child(17),
+.baloons img:nth-child(18) { top: 84%; }
 
 /* ===== 7. 粒子圆圈 ===== */
 .eight svg {
   width: 25px;
   position: absolute;
-  top: 0;
-  left: 0;
   visibility: hidden;
-  z-index: -1;
+  z-index: 1;
 }
 
-.eight svg:nth-child(1) { top: 7vh; left: 5vw; fill: #bd6ecf; }
-.eight svg:nth-child(2) { top: 23vh; left: 35vw; fill: #7dd175; }
-.eight svg:nth-child(3) { top: 33vh; left: 23vw; fill: #349d8b; }
-.eight svg:nth-child(4) { top: 43vh; left: 57vw; fill: #347a9d; }
-.eight svg:nth-child(5) { top: 68vh; left: 7vw; fill: #c66053; }
-.eight svg:nth-child(6) { top: 42vh; left: 77vw; fill: #bfaa40; }
-.eight svg:nth-child(7) { top: 68vh; left: 83vw; fill: #e3bae8; }
-.eight svg:nth-child(8) { top: 86vh; left: 37vw; fill: #8762cb; }
-.eight svg:nth-child(9) { top: 94vh; left: 87vw; fill: #9a90da; }
+.eight svg:nth-child(1) { top: 7%; left: 5%; fill: #bd6ecf; }
+.eight svg:nth-child(2) { top: 23%; left: 35%; fill: #7dd175; }
+.eight svg:nth-child(3) { top: 33%; left: 23%; fill: #349d8b; }
+.eight svg:nth-child(4) { top: 43%; left: 57%; fill: #347a9d; }
+.eight svg:nth-child(5) { top: 68%; left: 7%; fill: #c66053; }
+.eight svg:nth-child(6) { top: 42%; left: 77%; fill: #bfaa40; }
+.eight svg:nth-child(7) { top: 68%; left: 83%; fill: #e3bae8; }
+.eight svg:nth-child(8) { top: 86%; left: 37%; fill: #8762cb; }
+.eight svg:nth-child(9) { top: 94%; left: 87%; fill: #9a90da; }
 
-/* ===== 8. 结尾（许愿之后） ===== */
-.nine {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: calc(var(--vh, 1vh) * 100);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  padding-top: 20vh;
-}
-
+/* ===== 8. 结尾 ===== */
 .nine p {
   font-size: 1.1rem;
   font-weight: 400;
@@ -234,12 +236,11 @@ body {
 }
 
 #replay {
-  z-index: 3;
   cursor: pointer;
   pointer-events: auto;
-  margin-top: 20px !important;
-  font-size: 0.85rem !important;
-  color: #888 !important;
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #888;
   text-decoration: underline;
 }
 
@@ -302,7 +303,6 @@ body {
   font-size: 0.95rem;
   font-family: inherit;
   outline: none;
-  box-sizing: border-box;
   background: #fafafa;
   transition: border-color 0.15s;
 }
@@ -325,8 +325,8 @@ body {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: opacity 0.15s;
   font-family: inherit;
+  transition: opacity 0.15s;
 }
 
 .wish-btn:hover { opacity: 0.85; }
@@ -372,11 +372,12 @@ body {
 
 .birthday-gate-music-hint {
   position: fixed;
-  top: 16px;
-  right: 56px;
+  top: 20px;
+  right: 60px;
   font-size: 0.8rem;
   color: #999;
   z-index: 10001;
+  white-space: nowrap;
 }
 
 /* ===== 生日校验门 ===== */
@@ -389,8 +390,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  transition: opacity 0.6s ease;
+  gap: 20px;
+  transition: opacity 0.4s ease;
 }
 
 .birthday-gate.hidden {
@@ -414,14 +415,14 @@ body {
 .wheel-picker {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .wheel-col {
-  width: 64px;
-  height: 200px;
+  width: 60px;
+  height: 160px;
   border: 1px solid #e0e0e0;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -435,27 +436,26 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 50px;
   z-index: 2;
   pointer-events: none;
 }
 
 .wheel-col::before {
   top: 0;
-  background: linear-gradient(to bottom, #fff 70%, transparent);
+  background: linear-gradient(to bottom, #fff 60%, transparent);
 }
 
 .wheel-col::after {
   bottom: 0;
-  background: linear-gradient(to top, #fff 70%, transparent);
+  background: linear-gradient(to top, #fff 60%, transparent);
 }
 
 .wheel-inner {
   position: absolute;
-  top: 80px; /* 200 / 2 - 40 / 2 = 80, 让第一项居中 */
+  top: 60px;
   left: 0;
   right: 0;
-  will-change: transform;
 }
 
 .wheel-item {
@@ -463,10 +463,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #ccc;
-  transition: color 0.2s, opacity 0.2s, font-weight 0.2s;
-  flex-shrink: 0;
+  transition: color 0.15s, opacity 0.15s;
 }
 
 .wheel-item.active {
@@ -475,7 +474,7 @@ body {
 }
 
 .wheel-sep {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #333;
   font-weight: 600;
 }
@@ -489,12 +488,11 @@ body {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: opacity 0.15s;
   font-family: inherit;
+  transition: background 0.15s;
 }
 
 .birthday-gate-btn:hover { background: #555; }
-/* 按钮始终可点击，不做禁用样式 */
 
 .birthday-gate-error {
   font-size: 0.85rem;
@@ -504,42 +502,54 @@ body {
 }
 
 /* ===== 响应式 ===== */
-@media screen and (max-width: 600px) {
-  .container { max-width: 100%; }
-
-  .one { font-size: 1.4rem; }
-  .two { font-size: 0.85rem; }
-
-  .three { font-size: 1.1rem; }
-
-  .four .text-box { width: 90%; max-width: 360px; }
-  .text-box .fake-btn { right: 5px; bottom: -38px; }
-
-  .five p { font-size: 0.95rem; }
-  .five .idea-5 { font-size: 1.3rem; }
+@media (max-width: 600px) {
+  .one h1 { font-size: 1.6rem; }
+  .two { font-size: 0.9rem; }
+  .three { font-size: 1.2rem; }
+  .four .text-box { width: 90%; }
+  .five p { font-size: 1rem; }
+  .five .idea-5 { font-size: 1.5rem; }
   .idea-5 span { display: block; }
-  .idea-6 span { font-size: 3.5rem; }
+  .idea-6 span { font-size: 4rem; }
+  .wish-hbd { font-size: 1.3rem; }
+  .wish h5 { font-size: 1rem; }
 
-  .wish-hbd { font-size: 1.2rem; }
-  .wish h5 { font-size: 0.9rem; }
+  /* 移动端气球：缩小，保持6列布局 */
+  .baloons img { width: 100px; }
+  .baloons img:nth-child(6n + 1) { left: 0%; }
+  .baloons img:nth-child(6n + 2) { left: 17%; }
+  .baloons img:nth-child(6n + 3) { left: 34%; }
+  .baloons img:nth-child(6n + 4) { left: 51%; }
+  .baloons img:nth-child(6n + 5) { left: 68%; }
+  .baloons img:nth-child(6n + 6) { left: 85%; }
 
-  .baloons { gap: 4px; padding: 0 8px; }
-  .baloons img { max-width: 90px; flex: 0 0 calc(33.33% - 4px); }
+  .baloons img:nth-child(1),
+  .baloons img:nth-child(2),
+  .baloons img:nth-child(3),
+  .baloons img:nth-child(4),
+  .baloons img:nth-child(5),
+  .baloons img:nth-child(6) { top: 55%; }
 
-  .nine { padding-top: 18vh; }
+  .baloons img:nth-child(7),
+  .baloons img:nth-child(8),
+  .baloons img:nth-child(9),
+  .baloons img:nth-child(10),
+  .baloons img:nth-child(11),
+  .baloons img:nth-child(12) { top: 67%; }
 
-  .nine p { font-size: 0.9rem; }
-  .end-wish { font-size: 1rem !important; }
-  .end-final { font-size: 1.3rem !important; }
-  .last-smile { font-size: 0.75rem !important; }
-  #replay { font-size: 0.75rem !important; }
+  .baloons img:nth-child(13),
+  .baloons img:nth-child(14),
+  .baloons img:nth-child(15),
+  .baloons img:nth-child(16),
+  .baloons img:nth-child(17),
+  .baloons img:nth-child(18) { top: 79%; }
+
+  .nine p { font-size: 0.95rem; }
+  .end-wish { font-size: 1.1rem !important; }
+  .end-final { font-size: 1.4rem !important; }
+  .last-smile { font-size: 0.8rem !important; }
+  #replay { font-size: 0.8rem !important; }
 
   .wish-dialog { padding: 24px 20px; }
   .wish-title { font-size: 1.1rem; }
-
-  .wheel-col { width: 56px; height: 160px; }
-  .wheel-inner { top: 60px; }
-  .wheel-item { height: 36px; font-size: 1rem; }
-  .wheel-sep { font-size: 1rem; }
-  .birthday-gate-title { font-size: 1.2rem; }
 }
