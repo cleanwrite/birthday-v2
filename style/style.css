@@ -1,15 +1,21 @@
+:root {
+  --vh: 1vh;
+}
+
 html {
   box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  font-family: "Work Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -20,14 +26,14 @@ body {
 }
 
 .container div.six {
-  top: 9vh;
+  top: calc(var(--vh, 1vh) * 9);
   z-index: 1;
 }
 
 .container div.seven,
 .container div.eight {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   position: fixed;
   top: 0;
   left: 50%;
@@ -132,19 +138,22 @@ body {
   color: #888;
 }
 
-/* ===== 6. 气球（放大版，6 个横向位置均匀分布） ===== */
-.baloons img {
-  display: inline-block;
-  position: absolute;
-  width: 180px;
+/* ===== 6. 气球 ===== */
+.baloons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
 }
 
-.baloons img:nth-child(6n + 1) { left: 2%; }
-.baloons img:nth-child(6n + 2) { left: 18%; }
-.baloons img:nth-child(6n + 3) { left: 36%; }
-.baloons img:nth-child(6n + 4) { left: 54%; }
-.baloons img:nth-child(6n + 5) { left: 70%; }
-.baloons img:nth-child(6n + 6) { left: 86%; }
+.baloons img {
+  width: 140px;
+  height: auto;
+  opacity: 0;
+  flex: 0 0 calc(33.33% - 8px);
+  max-width: 120px;
+}
 
 /* ===== 7. 粒子圆圈 ===== */
 .eight svg {
@@ -172,7 +181,7 @@ body {
   left: 0;
   right: 0;
   top: 0;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   display: none;
   flex-direction: column;
   align-items: center;
@@ -488,42 +497,42 @@ body {
 }
 
 /* ===== 响应式 ===== */
-@media screen and (max-height: 1000px) {
-  .baloons img:nth-child(even) { left: -8%; }
-  .baloons img:nth-child(odd) { right: -8%; }
-}
-
 @media screen and (max-width: 600px) {
   .container { max-width: 100%; }
 
-  .one { font-size: 1.6rem; }
-  .two { font-size: 0.9rem; }
+  .one { font-size: 1.4rem; }
+  .two { font-size: 0.85rem; }
 
-  .three { font-size: 1.2rem; }
+  .three { font-size: 1.1rem; }
 
-  .four .text-box { width: 90%; }
+  .four .text-box { width: 90%; max-width: 360px; }
   .text-box .fake-btn { right: 5px; bottom: -38px; }
 
-  .five p { font-size: 1rem; }
-  .five .idea-5 { font-size: 1.5rem; }
+  .five p { font-size: 0.95rem; }
+  .five .idea-5 { font-size: 1.3rem; }
   .idea-5 span { display: block; }
-  .idea-6 span { font-size: 4rem; }
+  .idea-6 span { font-size: 3.5rem; }
 
-  .wish-hbd { font-size: 1.3em; }
-  .wish h5 { font-size: 1rem; }
+  .wish-hbd { font-size: 1.2rem; }
+  .wish h5 { font-size: 0.9rem; }
 
-  .baloons img { width: 110px; }
-  .baloons img:nth-child(6n + 5) { left: 56%; }
-  .baloons img:nth-child(6n + 6) { left: 72%; }
+  .baloons { gap: 4px; padding: 0 8px; }
+  .baloons img { max-width: 90px; flex: 0 0 calc(33.33% - 4px); }
 
   .nine { padding-top: 18vh; }
 
-  .nine p { font-size: 0.95rem; }
-  .end-wish { font-size: 1.1rem !important; }
-  .end-final { font-size: 1.4rem !important; }
-  .last-smile { font-size: 0.8rem !important; }
-  #replay { font-size: 0.8rem !important; }
+  .nine p { font-size: 0.9rem; }
+  .end-wish { font-size: 1rem !important; }
+  .end-final { font-size: 1.3rem !important; }
+  .last-smile { font-size: 0.75rem !important; }
+  #replay { font-size: 0.75rem !important; }
 
-  .wish-dialog { padding: 28px 24px; }
-  .wish-title { font-size: 1.5rem; }
+  .wish-dialog { padding: 24px 20px; }
+  .wish-title { font-size: 1.1rem; }
+
+  .wheel-col { width: 56px; height: 160px; }
+  .wheel-inner { top: 60px; }
+  .wheel-item { height: 36px; font-size: 1rem; }
+  .wheel-sep { font-size: 1rem; }
+  .birthday-gate-title { font-size: 1.2rem; }
 }

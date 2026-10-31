@@ -1,6 +1,14 @@
 (function () {
   const $ = (sel) => document.querySelector(sel);
 
+  // 修复移动端 100vh 问题
+  function setVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+  setVH();
+  window.addEventListener("resize", setVH);
+
   // ===== Worker API（许愿存储） =====
   const API_BASE = "https://birthday-v2.ss20211111705.workers.dev";
 
@@ -252,7 +260,7 @@
       .to($idea6Span, { duration: 0.7, scale: 2.5, opacity: 0, ease: "power2.in", stagger: 0 }, "+=1.2")
 
       // 6. 气球升空
-      .fromTo($baloons, { opacity: 0, y: 1400 }, { opacity: 0.95, y: -1100, duration: 4.5, stagger: 0.18, ease: "none" })
+      .to($baloons, { opacity: 0.95, y: -1200, duration: 4, stagger: 0.15, ease: "power1.out" })
 
       // 7. 生日祝福
       .set($six, { opacity: 1, y: 0 })
