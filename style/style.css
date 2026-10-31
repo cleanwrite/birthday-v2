@@ -31,8 +31,22 @@ body {
   overflow: hidden;
 }
 
-/* ===== 动画场景（绝对定位居中） ===== */
+/* ===== 动画场景（绝对定位居中，默认不可见） ===== */
 .container > .scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 思考序列容器 — 不可见但子元素独立动画 ===== */
+.scene-thinking {
   position: absolute;
   inset: 0;
   display: flex;
@@ -97,6 +111,7 @@ body {
   font-size: 1.2rem;
   color: #444;
   margin: 0;
+  opacity: 0;
 }
 
 .idea-3 strong {
@@ -105,6 +120,7 @@ body {
   display: inline-block;
   color: #333;
   font-weight: 600;
+  opacity: 0;
 }
 
 .five .idea-5 { font-size: 2rem; }
@@ -113,12 +129,14 @@ body {
 .idea-6 span,
 .wish-hbd span {
   display: inline-block;
+  opacity: 0;
 }
 
 .idea-6 span {
   font-size: 6rem;
   color: #333;
   font-weight: 600;
+  opacity: 0;
 }
 
 /* ===== 5. 生日祝福 ===== */
@@ -137,11 +155,17 @@ body {
 }
 
 /* ===== 6. 气球 ===== */
-.baloons {
+.seven {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+
+.baloons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .baloons img {
@@ -181,6 +205,13 @@ body {
 .baloons img:nth-child(18) { top: 84%; }
 
 /* ===== 7. 粒子圆圈 ===== */
+.eight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .eight svg {
   width: 25px;
   position: absolute;
@@ -204,6 +235,7 @@ body {
   font-weight: 400;
   color: #555;
   margin: 0;
+  opacity: 0;
 }
 
 .end-wishes {
@@ -242,6 +274,11 @@ body {
   font-size: 0.85rem;
   color: #888;
   text-decoration: underline;
+  opacity: 0;
+}
+
+.scene.nine {
+  pointer-events: auto;
 }
 
 /* ===== 许愿弹窗 ===== */

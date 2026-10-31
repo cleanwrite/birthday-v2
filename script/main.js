@@ -197,41 +197,41 @@
     tl
       // 1. 开场问候
       .to(".container", { duration: 0.1, visibility: "visible" })
-      .from($one, { duration: 0.6, opacity: 0, y: 10 })
-      .from($two, { duration: 0.4, opacity: 0, y: 10 })
+      .to($one, { duration: 0.6, opacity: 1, y: 0, ease: "power2.out" })
+      .to($two, { duration: 0.4, opacity: 1, y: 0, ease: "power2.out" })
       .to($one, { duration: 0.6, opacity: 0, y: 10 }, "+=2")
       .to($two, { duration: 0.6, opacity: 0, y: 10 }, "-=0.8")
 
       // 2. 生日宣言
-      .from($three, { duration: 0.6, opacity: 0, y: 10 })
+      .to($three, { duration: 0.6, opacity: 1, y: 0, ease: "power2.out" })
       .to($three, { duration: 0.6, opacity: 0, y: 10 }, "+=1.5")
 
       // 3. 对话气泡
-      .from($four, { duration: 0.6, scale: 0.3, opacity: 0, ease: "back.out" })
-      .from($fakeBtn, { duration: 0.3, scale: 0.3, opacity: 0 })
+      .to($four, { duration: 0.6, scale: 1, opacity: 1, ease: "back.out" })
+      .to($fakeBtn, { duration: 0.3, scale: 1, opacity: 1 })
       .to($chatSpan, { duration: 0.04, visibility: "visible", stagger: 0.04 })
       .to($fakeBtn, { duration: 0.1, backgroundColor: "rgb(127, 206, 248)" })
       .to($four, { duration: 0.4, scale: 0.3, opacity: 0, y: -100 }, "+=0.5")
 
       // 4. 思考序列
-      .from($idea1, { duration: 0.6, ...ideaIn })
+      .to($idea1, { duration: 0.6, opacity: 1, y: 0, rotateX: 0, skewX: 0, ease: "power2.out" })
       .to($idea1, { duration: 0.6, ...ideaOut }, "+=1.2")
-      .from($idea2, { duration: 0.6, ...ideaIn })
+      .to($idea2, { duration: 0.6, opacity: 1, y: 0, rotateX: 0, skewX: 0, ease: "power2.out" })
       .to($idea2, { duration: 0.6, ...ideaOut }, "+=1.2")
-      .from($idea3, { duration: 0.6, ...ideaIn })
+      .to($idea3, { duration: 0.6, opacity: 1, y: 0, rotateX: 0, skewX: 0, ease: "power2.out" })
       .to($idea3Strong, { duration: 0.4, scale: 1.08, backgroundColor: "rgb(21, 161, 237)", color: "#fff", ease: "power2.out" })
       .to($idea3, { duration: 0.6, ...ideaOut }, "+=1.2")
-      .from($idea4, { duration: 0.6, ...ideaIn })
+      .to($idea4, { duration: 0.6, opacity: 1, y: 0, rotateX: 0, skewX: 0, ease: "power2.out" })
       .to($idea4, { duration: 0.6, ...ideaOut }, "+=1.2")
-      .from($idea5, { duration: 0.6, rotateX: 15, rotateZ: -10, skewY: "-5deg", y: 30, opacity: 0 }, "+=0.4")
+      .to($idea5, { duration: 0.6, opacity: 1, y: 0, rotateX: 0, rotateZ: 0, skewY: 0, ease: "power2.out" }, "+=0.4")
       .to($smiley, { duration: 0.5, rotate: 15, scale: 1.15, ease: "back.out(2)" }, "+=0.3")
       .to($idea5, { duration: 0.6, scale: 0.2, opacity: 0 }, "+=1.5")
 
       // 5. 生日大字
-      .from($idea6Span, { duration: 0.7, scale: 2.5, opacity: 0, rotate: 12, ease: "expo.out", stagger: 0.12 })
+      .to($idea6Span, { duration: 0.7, opacity: 1, scale: 1, rotate: 0, ease: "expo.out", stagger: 0.12 })
       .to($idea6Span, { duration: 0.6, scale: 2.5, opacity: 0, ease: "power2.in", stagger: 0 }, "+=1")
 
-      // 6. 气球升空（绝对定位，逐行上浮）
+      // 6. 气球升空
       .to($baloons, {
         duration: 4,
         opacity: 0.9,
@@ -241,12 +241,12 @@
       })
 
       // 7. 生日祝福
-      .set($six, { opacity: 1, visibility: "visible" })
-      .from($wish, { duration: 0.4, scale: 2, opacity: 0, rotateZ: -10 }, "-=2")
-      .from($wishSpan, { duration: 0.6, opacity: 0, y: -40, rotate: 120, skewX: "20deg", ease: "elastic.out(1, 0.5)", stagger: 0.08 })
+      .set($six, { opacity: 1 })
+      .to($wish, { duration: 0.4, opacity: 1, scale: 1, rotateZ: 0, ease: "back.out" }, "-=2")
+      .to($wishSpan, { duration: 0.6, opacity: 1, y: 0, rotate: 0, skewX: 0, ease: "elastic.out(1, 0.5)", stagger: 0.08 })
       .addLabel("party")
       .to($wishSpan, { duration: 0.6, rotateY: 0, color: "#ff69b4", ease: "expo.out", stagger: 0.06 }, "party")
-      .from($wishH5, { duration: 0.4, opacity: 0, y: 8 }, "party+=0.2")
+      .to($wishH5, { duration: 0.4, opacity: 1, y: 0 }, "party+=0.2")
 
       // 8. 粒子爆炸
       .set($eightSvg, { visibility: "visible", opacity: 0.3 })
@@ -254,9 +254,10 @@
 
       // 9. 许愿弹窗
       .add(() => {
-        gsap.set(".wish-overlay", { display: "flex" });
+        gsap.set(".wish-overlay", { display: "flex", opacity: 0 });
         gsap.to(".wish-overlay", { duration: 0.3, opacity: 1, pointerEvents: "auto" });
-        gsap.from(".wish-dialog", { duration: 0.5, opacity: 0, scale: 0.9, y: 20, ease: "back.out", delay: 0.1 });
+        gsap.set(".wish-dialog", { opacity: 0, scale: 0.9, y: 20 });
+        gsap.to(".wish-dialog", { duration: 0.5, opacity: 1, scale: 1, y: 0, ease: "back.out" });
         setTimeout(() => $("#wishInput").focus(), 300);
       })
       .addPause()
@@ -265,14 +266,14 @@
       .to(".wish-overlay", { duration: 0.3, opacity: 0, pointerEvents: "none" })
       .set(".wish-overlay", { display: "none" })
       .to($six, { duration: 0.4, opacity: 0, y: 20 })
-      .set($nine, { display: "flex" })
-      .from(".end-1", { duration: 0.6, opacity: 0, y: 20 })
-      .from(".end-2", { duration: 0.6, opacity: 0, y: 20 }, "+=0.4")
-      .from(".end-3", { duration: 0.6, opacity: 0, y: 20 }, "+=0.4")
-      .from(".end-wish", { duration: 0.5, opacity: 0, scale: 0.7, ease: "back.out(2)", stagger: 0.3 }, "+=0.5")
-      .from(".end-final", { duration: 0.8, opacity: 0, scale: 2, ease: "elastic.out(1, 0.5)" }, "+=0.4")
-      .from(".last-smile", { duration: 0.6, opacity: 0, y: 10 }, "+=0.2")
-      .from("#replay", { duration: 0.4, opacity: 0 }, "+=0.3");
+      .set($nine, { display: "flex", opacity: 1 })
+      .to(".end-1", { duration: 0.6, opacity: 1, y: 0, ease: "power2.out" })
+      .to(".end-2", { duration: 0.6, opacity: 1, y: 0, ease: "power2.out" }, "+=0.4")
+      .to(".end-3", { duration: 0.6, opacity: 1, y: 0, ease: "power2.out" }, "+=0.4")
+      .to(".end-wish", { duration: 0.5, opacity: 1, scale: 1, ease: "back.out(2)", stagger: 0.3 }, "+=0.5")
+      .to(".end-final", { duration: 0.8, opacity: 1, scale: 1, ease: "elastic.out(1, 0.5)" }, "+=0.4")
+      .to(".last-smile", { duration: 0.6, opacity: 1, y: 0 }, "+=0.2")
+      .to("#replay", { duration: 0.4, opacity: 1 }, "+=0.3");
 
     tl.play();
 
@@ -303,7 +304,9 @@
       $("#submitWish").style.display = "";
       $("#wishConfirm").style.display = "none";
       gsap.set(".wish-overlay", { display: "none", opacity: 0, pointerEvents: "none" });
+      gsap.set(".scene", { opacity: 0, y: 0, scale: 1, rotate: 0, rotateX: 0, rotateY: 0, rotateZ: 0, skewX: 0, skewY: 0 });
       gsap.set($nine, { display: "none" });
+      gsap.set($eightSvg, { visibility: "hidden" });
       tl.restart();
       return false;
     };
