@@ -146,7 +146,7 @@
   };
 
   function startApp() {
-    fetch("customize.json?v=20261031c")
+    fetch("customize.json?v=20261031d")
       .then((r) => r.json())
       .then((data) => {
         Object.keys(data).forEach((key) => {
@@ -257,9 +257,9 @@
 
       // ===== 7. 生日祝福 =====
       .set(".six", { opacity: 1, pointerEvents: "auto" })
-      .to(".wish", { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.5)" }, "-=1.5")
-      .to($wishSpan, { opacity: 1, duration: 0.5, ease: "elastic.out(1, 0.5)", stagger: 0.06 })
-      .to($wishSpan, { color: "#ff69b4", duration: 0.5, ease: "expo.out", stagger: 0.05 }, "-=0.3")
+      .set(".wish", { opacity: 1, scale: 1 })
+      .to(".wish-hbd span", { opacity: 1, duration: 0.5, ease: "elastic.out(1, 0.5)", stagger: 0.06 }, "-=1.5")
+      .to(".wish-hbd span", { color: "#ff69b4", duration: 0.5, ease: "expo.out", stagger: 0.05 }, "-=0.3")
       .to(".wish h5", { opacity: 1, duration: 0.3 }, "-=0.2")
 
       // ===== 8. 粒子 =====
@@ -279,15 +279,14 @@
       // ===== 10. 结尾 =====
       .to(".wish-overlay", { opacity: 0, pointerEvents: "none", duration: 0.3 })
       .set(".wish-overlay", { display: "none" })
-      .set(".nine", { display: "flex" })
-      // 先让 .nine 整体可见
-      .set(".nine", { opacity: 1 })
-      .to(".end-1", { opacity: 1, duration: 0.5, ease: "power2.out" })
-      .to(".end-2", { opacity: 1, duration: 0.5, ease: "power2.out" }, "+=0.3")
-      .to(".end-3", { opacity: 1, duration: 0.5, ease: "power2.out" }, "+=0.3")
-      .to(".end-wish", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.2 }, "+=0.4")
-      .to(".end-final", { opacity: 1, scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }, "+=0.3")
-      .to(".last-smile", { opacity: 1, duration: 0.4 }, "+=0.2")
+      .set(".six", { opacity: 0 })
+      .set(".nine", { display: "flex", opacity: 1 })
+      .to(".nine .end-1", { opacity: 1, duration: 0.5, ease: "power2.out" })
+      .to(".nine .end-2", { opacity: 1, duration: 0.5, ease: "power2.out" }, "+=0.3")
+      .to(".nine .end-3", { opacity: 1, duration: 0.5, ease: "power2.out" }, "+=0.3")
+      .to(".nine .end-wish", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.2 }, "+=0.4")
+      .to(".nine .end-final", { opacity: 1, scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)" }, "+=0.3")
+      .to(".nine .last-smile", { opacity: 1, duration: 0.4 }, "+=0.2")
       .to("#replay", { opacity: 1, duration: 0.3 }, "+=0.2");
 
     tl.play();
