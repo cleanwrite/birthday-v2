@@ -9,7 +9,7 @@
   const musicBtn = $("#musicBtn");
   const musicHint = $("#musicHint");
   let isPlaying = false;
-  musicBtn.onclick = (e) => {
+  if (musicBtn) musicBtn.onclick = (e) => {
     e.stopPropagation();
     if (musicHint) musicHint.style.display = "none";
     if (isPlaying) { bgMusic.pause(); musicBtn.textContent = "🔇"; isPlaying = false; }
@@ -24,6 +24,7 @@
   const gateBtn = $("#gateBtn");
   const gateError = $("#gateError");
   const birthdayGate = $("#birthdayGate");
+  if (!monthWheel || !dayWheel || !gateBtn || !birthdayGate) return;
   const ITEM_H = 40;
 
   function buildWheel(wheel, count) {
@@ -150,6 +151,7 @@
     // 拆字符（逐字动画用）
     const chat = $(".hbd-chatbox");
     const hbd = $(".wish-hbd");
+    if (!chat || !hbd) return;
     const splitChars = (el) => {
       el.innerHTML = el.innerHTML.split("").map((c) => `<span>${c}</span>`).join("");
     };
