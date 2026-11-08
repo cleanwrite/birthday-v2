@@ -92,18 +92,43 @@
     }
   });
 
+  // ===== 内联配置（避免 fetch 延迟） =====
+  const CUSTOMIZE = {
+    "greeting": "嘿",
+    "name": "朋友",
+    "greetingText": "恭喜你又活了一年！",
+    "text1": "今天是你的生日！！！🎉",
+    "textInChatBox": "祝你生日快乐！愿你每一天都充满阳光与欢笑，所有的梦想都能成真！🎉",
+    "sendButtonLabel": "发送",
+    "text2": "我没什么可以送给你的",
+    "text3": "这是一个小礼物",
+    "text4": "这个网站将作为礼物送给你",
+    "text4Adjective": "它将永远属于你",
+    "text5Entry": "每年你的生日我都会更新这个网站",
+    "text5Content": "这样始终有人陪你过生日",
+    "smiley": "😎",
+    "bigTextPart1": "生",
+    "bigTextPart2": "日",
+    "wishHeading": "生日快乐！",
+    "wishText": "愿你被这个世界温柔以待，所有的美好都如期而至 ✨",
+    "endIntro1": "愿望已经偷偷收好啦 ✨",
+    "endIntro2": "不管它会不会实现",
+    "endIntro3": "我都希望你——",
+    "endWish1": "天天开心 🌸",
+    "endWish2": "万事顺意 🌟",
+    "endWish3": "永远被爱 💕",
+    "endFinal": "生日快乐！",
+    "outroSmiley": "也感谢你的倾听（冷知识，背景音乐是我在弹😎",
+    "replayText": "点击这里再看一遍 🔄"
+  };
+
   // ===== 加载配置 =====
   function startApp() {
-    fetch("customize.json?v=20261031g")
-      .then((r) => r.json())
-      .then((data) => {
-        Object.keys(data).forEach((key) => {
-          const el = document.querySelector('[data-node-name*="' + key + '"]');
-          if (el && data[key]) el.innerText = data[key];
-        });
-        init();
-      })
-      .catch(() => init());
+    Object.keys(CUSTOMIZE).forEach((key) => {
+      const el = document.querySelector('[data-node-name*="' + key + '"]');
+      if (el && CUSTOMIZE[key]) el.innerText = CUSTOMIZE[key];
+    });
+    init();
   }
 
   // 校验门关闭后显示音乐提示
