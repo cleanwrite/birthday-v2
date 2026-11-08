@@ -89,7 +89,7 @@
   let tl;
 
   function startApp() {
-    fetch("customize.json?v=20261031e")
+    fetch("customize.json?v=20261031f")
       .then(r => r.json())
       .then(data => {
         Object.keys(data).forEach(k => {
@@ -108,11 +108,11 @@
     chatEl.innerHTML = chatEl.textContent.split("").map(c => '<span style="visibility:hidden">' + c + "</span>").join("");
     hbdEl.innerHTML = hbdEl.textContent.split("").map(c => "<span>" + c + "</span>").join("");
 
-    // 隐藏容器
+    // 隐藏所有场景容器
     [...$$(".scene")].forEach(el => { el.style.display = "none"; });
+    $(".scene-thinking").style.display = "none";
     [...$$(".baloons img")].forEach(el => { el.style.opacity = "0"; });
     [...$$(".eight svg")].forEach(el => { el.style.visibility = "hidden"; });
-    $(".scene-thinking").style.display = "none";
     $(".container").style.visibility = "visible";
 
     // 缓存
@@ -121,43 +121,35 @@
     const $baloons = $$(".baloons img");
     const $eightSvg = $$(".eight svg");
 
-    // 时间轴
+    // 创建时间轴
     tl = gsap.timeline({ paused: true });
 
-    const show = (sel, extra = {}) => tl.to(sel, { opacity: 1, display: "flex", duration: 0.5, ease: "power2.out", ...extra }, "+=0");
-    const hide = (sel, dur = 0.4) => tl.to(sel, { opacity: 0, duration: dur }, "+=0");
-    const wait = sec => tl.to({}, { duration: sec }, "+=0");
-
-    tl
-      // 1. 开场
-      .set(".one", { display: "flex" })
-      .set(".two", { display: "flex" })
+    // ===== 1. 开场问候 =====
+    tl.set(".one", { display: "flex", opacity: 0 })
       .to(".one", { opacity: 1, duration: 0.6, ease: "power2.out" })
-      .to(".two", { opacity: 1, duration: 0.4, ease: "power2.out" })
       .to({}, { duration: 2 })
       .to(".one", { opacity: 0, duration: 0.5 })
-      .to(".two", { opacity: 0, duration: 0.5 }, "-=0.3")
       .set(".one", { display: "none" })
-      .set(".two", { display: "none" })
 
-      // 2. 宣言
-      .set(".three", { display: "flex" })
+      // ===== 2. 生日宣言 =====
+      .set(".three", { display: "flex", opacity: 0 })
       .to(".three", { opacity: 1, duration: 0.5, ease: "power2.out" })
       .to({}, { duration: 1.5 })
       .to(".three", { opacity: 0, duration: 0.4 })
       .set(".three", { display: "none" })
 
-      // 3. 气泡
-      .set(".four", { display: "flex", scale: 0.3 })
+      // ===== 3. 对话气泡 =====
+      .set(".four", { display: "flex", opacity: 0, scale: 0.3 })
       .to(".four", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" })
       .set($chatSpan, { visibility: "visible", duration: 0.04, stagger: 0.04 })
       .to({}, { duration: 0.5 })
       .to(".four", { opacity: 0, scale: 0.3, duration: 0.4 })
       .set(".four", { display: "none" })
 
-      // 4. 思考序列
+      // ===== 4. 思考序列 =====
       .set(".scene-thinking", { display: "flex" })
-      .set([".idea-1", ".idea-2", ".idea-3", ".idea-4", ".idea-5", ".idea-6 span"], { opacity: 0 })
+      .set([".idea-1", ".idea-2", ".idea-3", ".idea-4", ".idea-5", ".idea-6"], { opacity: 0 })
+      .set(".idea-6 span", { opacity: 0 })
 
       .to(".idea-1", { opacity: 1, duration: 0.5 })
       .to({}, { duration: 1 })
@@ -186,21 +178,23 @@
       .to(".idea-6 span", { opacity: 0, duration: 0.5 })
       .set(".scene-thinking", { display: "none" })
 
-      // 5. 气球
-      .set(".seven", { display: "flex" })
+      // ===== 5. 气球 =====
+      .set(".seven", { display: "block" })
       .to($baloons, { opacity: 0.9, y: -600, duration: 3.5, stagger: { each: 0.1, from: "random" }, ease: "power1.out" })
 
-      // 6. 祝福
+      // ===== 6. 生日祝福 =====
       .set(".six", { display: "flex" })
+      .set(".wish-hbd span", { opacity: 0 })
       .to(".wish-hbd span", { opacity: 1, duration: 0.5, ease: "elastic.out(1, 0.5)", stagger: 0.06 }, "-=1.5")
       .to(".wish-hbd span", { color: "#ff69b4", duration: 0.5, ease: "expo.out", stagger: 0.05 }, "-=0.3")
+      .set(".wish h5", { opacity: 0 })
       .to(".wish h5", { opacity: 1, duration: 0.3 }, "-=0.2")
 
-      // 7. 粒子
+      // ===== 7. 粒子 =====
       .set($eightSvg, { visibility: "visible", opacity: 0.3 })
       .to($eightSvg, { opacity: 0, scale: 15, duration: 0.8, stagger: 0.15, ease: "power1.in" })
 
-      // 8. 许愿
+      // ===== 8. 许愿弹窗 =====
       .add(() => {
         gsap.set(".wish-overlay", { display: "flex", opacity: 0 });
         gsap.to(".wish-overlay", { opacity: 1, duration: 0.3, pointerEvents: "auto" });
@@ -210,7 +204,7 @@
       })
       .addPause()
 
-      // 9. 结尾
+      // ===== 9. 结尾 =====
       .to(".wish-overlay", { opacity: 0, pointerEvents: "none", duration: 0.3 })
       .set(".wish-overlay", { display: "none" })
       .to(".six", { opacity: 0, duration: 0.3 })
@@ -247,6 +241,7 @@
       $("#wishConfirm").style.display = "none";
       gsap.set(".wish-overlay", { display: "none", opacity: 0, pointerEvents: "none" });
       gsap.globalTimeline.clear();
+      // 重新拆字（因为 init 会重新拆分）
       init();
       return false;
     };
