@@ -170,7 +170,8 @@ body {
   display: none; /* 默认隐藏，结尾序列开始时由 GSAP 显示，避免拦截许愿弹窗点击 */
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 15vh;
   gap: 6px;
 }
 
