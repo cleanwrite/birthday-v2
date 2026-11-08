@@ -2,7 +2,7 @@
   const $ = (sel) => document.querySelector(sel);
 
   // ===== Worker API（许愿存储） =====
-  const API_BASE = "https://birthday-v2.ss20211111705.workers.dev";
+  const API_BASE = ""; // 同域请求，自动适配 workers.dev 或自定义域名
 
   // ===== 音频 =====
   const bgMusic = $("#bgMusic");
