@@ -429,6 +429,7 @@ body {
   left: 0;
   right: 0;
   will-change: transform;
+  /* top is controlled by JS for precise centering */
 }
 
 .wheel-item {
@@ -518,7 +519,6 @@ body {
   .wish-title { font-size: 1.5rem; }
 
   .wheel-col { width: 56px; height: 140px; }
-  .wheel-inner { top: 50px; }
   .wheel-item { height: 36px; font-size: 0.9rem; }
   .birthday-gate-title { font-size: 1.2rem; }
 }

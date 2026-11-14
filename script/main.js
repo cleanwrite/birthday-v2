@@ -67,13 +67,17 @@
     let cur = 0, last = 0, ty = 0;
     const items = [...inner.children];
     const wheelEl = inner.parentElement;
-    const wheelH = wheelEl.clientHeight || 160;
-    const itemH = items[0].offsetHeight || ITEM_H;
-    const centerOffset = (wheelH - itemH) / 2;
+
+    function getMetrics() {
+      const wheelH = wheelEl.clientHeight || 160;
+      const itemH = items[0].offsetHeight || ITEM_H;
+      return { wheelH, itemH, centerOffset: (wheelH - itemH) / 2 };
+    }
 
     function render(anim) {
+      const { itemH, centerOffset } = getMetrics();
       inner.style.transition = anim ? 'transform 0.25s cubic-bezier(0.25, 0.75, 0.35, 1)' : 'none';
-      // 精确居中：第一项在 centerOffset 位置，每项向下移动 itemH
+      // 精确居中：选中项在 wheel 中心
       inner.style.transform = 'translateY(' + (centerOffset - cur * itemH) + 'px)';
       items.forEach((el, i) => {
         const dist = Math.abs(i - cur);
