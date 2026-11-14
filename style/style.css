@@ -1,15 +1,24 @@
+/* ===== 基础 ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
 html {
-  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
-  font-family: "Work Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "Work Sans", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
   overflow: hidden;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== 主容器 ===== */
 .container {
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -17,6 +26,15 @@ body {
   visibility: hidden;
   position: relative;
   overflow: hidden;
+}
+
+.container > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20vh;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .container div.six {
@@ -35,23 +53,16 @@ body {
   pointer-events: none;
 }
 
-.container > div {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 20vh;
-  pointer-events: none;
-}
-
 /* ===== 1. 开场问候 ===== */
 .one { font-size: 4.5rem; color: #333; }
 .one h1 { font-weight: 500; margin: 0; }
-.one h1 span { display: inline-block; }
+.one h1 span { display: inline-block; will-change: transform; }
 
 .two {
   font-size: 1.2rem;
-  font-weight: lighter;
+  font-weight: 300;
   color: #888;
+  margin-top: 8px;
 }
 
 /* ===== 2. 生日宣言 ===== */
@@ -61,6 +72,7 @@ body {
 /* ===== 3. 对话气泡 ===== */
 .four .text-box {
   width: 600px;
+  max-width: 90%;
   margin: 0 auto;
   border: 3px solid #aaa;
   border-radius: 5px;
@@ -70,7 +82,7 @@ body {
 }
 
 .text-box p { margin: 0; text-align: left; }
-.text-box span { visibility: hidden; }
+.text-box span { visibility: hidden; display: inline-block; }
 
 .text-box .fake-btn {
   position: absolute;
@@ -81,6 +93,7 @@ body {
   padding: 5px 8px;
   border-radius: 3px;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 
 /* ===== 4. 思考序列 ===== */
@@ -91,6 +104,7 @@ body {
   right: 0;
   color: #555;
   margin: 0;
+  will-change: transform, opacity;
 }
 
 .idea-3 strong {
@@ -98,19 +112,16 @@ body {
   border-radius: 3px;
   display: inline-block;
   color: #ff69b4;
+  will-change: transform;
 }
 
 .five .idea-5 { font-size: 4rem; }
-
-.idea-5 span,
-.idea-6 span,
-.wish-hbd span {
-  display: inline-block;
-}
+.idea-5 span, .idea-6 span, .wish-hbd span { display: inline-block; will-change: transform; }
 
 .idea-6 span {
   font-size: 15rem;
   color: #ff69b4;
+  font-weight: 700;
 }
 
 /* ===== 5. 生日祝福 ===== */
@@ -119,26 +130,28 @@ body {
 .wish-hbd {
   font-size: 3em;
   margin: 0;
-  text-transform: uppercase;
+  font-weight: 700;
+  color: #333;
 }
 
 .wish h5 {
-  font-weight: lighter;
+  font-weight: 300;
   font-size: 2rem;
   margin: 10px 0 0;
   color: #888;
 }
 
-/* ===== 6. 气球（放大版） ===== */
+/* ===== 6. 气球 ===== */
 .baloons img {
   display: inline-block;
   position: absolute;
   width: 280px;
+  will-change: transform, opacity;
 }
 
 .baloons img:nth-child(even) { left: -6%; }
 .baloons img:nth-child(odd) { right: -6%; }
-.baloons img:nth-child(3n + 0) { left: 28%; }
+.baloons img:nth-child(3n) { left: 28%; }
 
 /* ===== 7. 粒子圆圈 ===== */
 .eight svg {
@@ -148,6 +161,7 @@ body {
   left: 0;
   visibility: hidden;
   z-index: -1;
+  will-change: transform, opacity;
 }
 
 .eight svg:nth-child(1) { top: 7vh; left: 5vw; fill: #bd6ecf; }
@@ -160,14 +174,14 @@ body {
 .eight svg:nth-child(8) { top: 86vh; left: 37vw; fill: #8762cb; }
 .eight svg:nth-child(9) { top: 94vh; left: 87vw; fill: #9a90da; }
 
-/* ===== 8. 结尾（许愿之后） ===== */
+/* ===== 8. 结尾 ===== */
 .nine {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   height: 100vh;
-  display: none; /* 默认隐藏，结尾序列开始时由 GSAP 显示，避免拦截许愿弹窗点击 */
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -216,7 +230,12 @@ body {
   color: #ff69b4 !important;
   text-decoration: underline;
   opacity: 0.75;
+  background: none;
+  border: none;
+  font-family: inherit;
 }
+
+#replay:hover { opacity: 1; }
 
 /* ===== 许愿弹窗 ===== */
 .wish-overlay {
@@ -233,11 +252,6 @@ body {
   transition: opacity 0.4s;
 }
 
-.wish-overlay.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 .wish-dialog {
   background: #fff;
   border-radius: 24px;
@@ -246,7 +260,11 @@ body {
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
   max-width: 440px;
   width: 92%;
+  transform: scale(0.95);
+  transition: transform 0.4s;
 }
+
+.wish-overlay.visible .wish-dialog { transform: scale(1); }
 
 .wish-dialog-header {
   display: flex;
@@ -257,18 +275,8 @@ body {
 }
 
 .wish-icon { font-size: 2rem; }
-
-.wish-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #ff69b4;
-}
-
-.wish-hint {
-  font-size: 0.95rem;
-  color: #999;
-  margin-bottom: 18px;
-}
+.wish-title { font-size: 1.8rem; font-weight: 600; color: #ff69b4; }
+.wish-hint { font-size: 0.95rem; color: #999; margin-bottom: 18px; }
 
 .wish-input {
   width: 100%;
@@ -278,16 +286,11 @@ body {
   font-size: 1rem;
   font-family: inherit;
   outline: none;
-  box-sizing: border-box;
   background: #f9f9f9;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, background 0.3s;
 }
 
-.wish-input:focus {
-  border-color: #ff69b4;
-  background: #fff;
-}
-
+.wish-input:focus { border-color: #ff69b4; background: #fff; }
 .wish-input::placeholder { color: #bbb; }
 
 .wish-btn {
@@ -300,7 +303,7 @@ body {
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
   font-family: inherit;
 }
 
@@ -363,10 +366,9 @@ body {
   gap: 20px;
   transition: opacity 0.4s ease;
 }
-.birthday-gate.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
+
+.birthday-gate.hidden { opacity: 0; pointer-events: none; }
+
 .birthday-gate-music-hint {
   position: fixed;
   top: 20px;
@@ -375,22 +377,26 @@ body {
   color: #999;
   z-index: 10001;
 }
+
 .birthday-gate-title {
   font-size: 1.4rem;
   font-weight: 600;
   color: #333;
   margin: 0;
 }
+
 .birthday-gate-hint {
   font-size: 0.85rem;
   color: #999;
   margin: 0;
 }
+
 .wheel-picker {
   display: flex;
   align-items: center;
   gap: 10px;
 }
+
 .wheel-col {
   width: 60px;
   height: 160px;
@@ -401,7 +407,9 @@ body {
   cursor: pointer;
   user-select: none;
   touch-action: none;
+  background: #fff;
 }
+
 .wheel-col::before, .wheel-col::after {
   content: '';
   position: absolute;
@@ -411,14 +419,18 @@ body {
   z-index: 2;
   pointer-events: none;
 }
+
 .wheel-col::before { top: 0; background: linear-gradient(to bottom, #fff 60%, transparent); }
 .wheel-col::after { bottom: 0; background: linear-gradient(to top, #fff 60%, transparent); }
+
 .wheel-inner {
   position: absolute;
   top: 60px;
   left: 0;
   right: 0;
+  will-change: transform;
 }
+
 .wheel-item {
   height: 40px;
   display: flex;
@@ -426,16 +438,13 @@ body {
   justify-content: center;
   font-size: 1rem;
   color: #ccc;
+  transition: color 0.2s;
 }
-.wheel-item.active {
-  color: #333;
-  font-weight: 600;
-}
-.wheel-sep {
-  font-size: 1.1rem;
-  color: #333;
-  font-weight: 600;
-}
+
+.wheel-item.active { color: #333; font-weight: 600; }
+
+.wheel-sep { font-size: 1.1rem; color: #333; font-weight: 600; }
+
 .birthday-gate-btn {
   padding: 10px 32px;
   font-size: 0.95rem;
@@ -446,14 +455,31 @@ body {
   border-radius: 6px;
   cursor: pointer;
   font-family: inherit;
+  transition: background 0.2s;
 }
+
 .birthday-gate-btn:hover { background: #555; }
+.birthday-gate-btn:active { transform: scale(0.98); }
+
 .birthday-gate-error {
   font-size: 0.85rem;
   color: #e74c3c;
   height: 20px;
   margin: 0;
 }
+
+/* ===== 加载动画 ===== */
+.gate-loader {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #e0e0e0;
+  border-top-color: #ff69b4;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ===== 响应式 ===== */
 @media screen and (max-height: 1000px) {
@@ -466,7 +492,6 @@ body {
 
   .one { font-size: 2.5rem; }
   .two { font-size: 1rem; }
-
   .three { font-size: 1.8rem; }
 
   .four .text-box { width: 90%; }
@@ -491,4 +516,16 @@ body {
 
   .wish-dialog { padding: 28px 24px; }
   .wish-title { font-size: 1.5rem; }
+
+  .wheel-col { width: 56px; height: 140px; }
+  .wheel-inner { top: 50px; }
+  .wheel-item { height: 36px; font-size: 0.9rem; }
+  .birthday-gate-title { font-size: 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baloons img,
+  .eight svg,
+  .wheel-inner { will-change: auto; }
+  .gate-loader { animation: none; }
 }
