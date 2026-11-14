@@ -66,34 +66,41 @@
   function makeWheel(inner, count) {
     let cur = 0, last = 0, ty = 0;
     const items = [...inner.children];
+    const wheelEl = inner.parentElement;
+    const wheelH = wheelEl.clientHeight || 160;
+    const itemH = items[0].offsetHeight || ITEM_H;
+    const centerOffset = (wheelH - itemH) / 2;
 
     function render(anim) {
       inner.style.transition = anim ? 'transform 0.25s cubic-bezier(0.25, 0.75, 0.35, 1)' : 'none';
-      inner.style.transform = 'translateY(' + (-cur * ITEM_H) + 'px)';
+      // 精确居中：第一项在 centerOffset 位置，每项向下移动 itemH
+      inner.style.transform = 'translateY(' + (centerOffset - cur * itemH) + 'px)';
       items.forEach((el, i) => {
         const dist = Math.abs(i - cur);
         el.classList.toggle('active', i === cur);
-        el.style.opacity = dist > 3 ? '0' : String(1 - dist * 0.25);
+        el.style.opacity = dist > 2 ? '0' : String(1 - dist * 0.3);
+        el.style.fontWeight = i === cur ? '600' : '400';
+        el.style.color = i === cur ? '#333' : '#ccc';
       });
     }
 
-    inner.parentElement.addEventListener('wheel', (e) => {
+    wheelEl.addEventListener('wheel', (e) => {
       e.preventDefault();
       const now = Date.now();
-      if (now - last < 60) return;
+      if (now - last < 50) return;
       last = now;
       cur = Math.max(0, Math.min(count - 1, cur + (e.deltaY > 0 ? 1 : -1)));
       render(true);
     }, { passive: false });
 
-    inner.parentElement.addEventListener('touchstart', (e) => {
+    wheelEl.addEventListener('touchstart', (e) => {
       ty = e.touches[0].clientY;
     }, { passive: true });
 
-    inner.parentElement.addEventListener('touchmove', (e) => {
+    wheelEl.addEventListener('touchmove', (e) => {
       e.preventDefault();
       const dy = ty - e.touches[0].clientY;
-      if (Math.abs(dy) > 12) {
+      if (Math.abs(dy) > 10) {
         cur = Math.max(0, Math.min(count - 1, cur + (dy > 0 ? 1 : -1)));
         render(true);
         ty = e.touches[0].clientY;

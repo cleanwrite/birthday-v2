@@ -8,7 +8,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Work Sans", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+  font-family: "Work Sans", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", sans-serif;
   overflow: hidden;
   background: #fff;
   -webkit-font-smoothing: antialiased;
@@ -425,7 +425,7 @@ body {
 
 .wheel-inner {
   position: absolute;
-  top: 60px;
+  top: 0;
   left: 0;
   right: 0;
   will-change: transform;
