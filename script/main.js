@@ -202,7 +202,8 @@
     if (!chat || !hbd || typeof gsap === 'undefined') return;
 
     const splitChars = (el) => {
-      el.innerHTML = el.textContent.split('').map((c) => '<span>' + c + '</span>').join('');
+      // 使用 Array.from 按码点拆分，正确处理 emoji 代理对
+      el.innerHTML = Array.from(el.textContent).map((c) => '<span>' + c + '</span>').join('');
     };
     splitChars(chat);
     splitChars(hbd);
