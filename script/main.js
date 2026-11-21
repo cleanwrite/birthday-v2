@@ -157,7 +157,7 @@
     text4: '这个网站送给你',
     text4Adjective: '希望你喜欢',
     text5Entry: '希望这个网站能陪你',
-    text5Content: '愿你的每一天都被温柔以待',
+    text5Content: '只是我能做的一点小东西',
     smiley: '😎',
     bigTextPart1: '生',
     bigTextPart2: '日',
